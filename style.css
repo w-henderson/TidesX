@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;700&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Poppins;
+  font-weight: 400;
+}
+
+.topBar {
+  height: 25vh;
+  width: 100%;
+  background: linear-gradient(to bottom, #33b4ff, #007bc2);
+  color: #f2f4ff;
+}
+
+.tabButtons {
+  height: 60%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5vw;
+  font-size: 6vh;
+  text-align: center;
+}
+
+.tabButtons img {
+  height: 11vh;
+  padding: 0 10vw;
+  vertical-align: middle;
+  -webkit-filter: drop-shadow(0px 0px 3px rgba(0,0,0,0.5));
+  opacity: 0.5;
+  transition: 250ms;
+}
+
+.tabButtons i {
+  -webkit-filter: drop-shadow(0px 0px 3px rgba(0,0,0,0.5));
+  opacity: 0.5;
+  transition: 250ms;
+}
+
+.selectedTab {
+  -webkit-filter: drop-shadow(0px 0px 3px rgba(0,0,0,1)) !important;
+  transform: scale(1.1);
+  opacity: 1 !important;
+}
+
+#titleBar {
+  height: 40%;
+  width: 100%;
+  text-align: center;
+  font-size: 6vh;
+  font-weight: 700;
+  text-transform: capitalize;
+  -webkit-filter: drop-shadow(0px 0px 3px rgba(0,0,0,1));
+}
+
+#main {
+  height: 75vh;
+  width: 100%;
+  background-color: #d6f0ff;
+  color: #00020f;
+  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.25);
+}
+
+.tab {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 3vh 5vh;
+  font-size: 3vh;
+  overflow: scroll;
+  display: none;
+}
+
+.tabActive {
+  display: block;
+}
+
+.favourite {
+  margin-bottom: 3vh;
+}
+
+.favourite table {
+  border-spacing: 0;
+  width: 100%;
+}
+
+.favourite td {
+  width: 50%;
+}
+
+.favourite span {
+  font-size: 4vh;
+  display: block;
+  margin-bottom: 2vh;
+  font-weight: 500;
+}
+
+.favourite tr.times {
+  font-size: 8vh;
+  height: 4vh;
+  line-height: 6vh;
+  font-weight: 200;
+}
+
+.favourite tr.times img {
+  height: 8vh;
+}
+
+#locationTab span {
+  font-weight: 500;
+  font-size: 4vh;
+}
+
+.detailedTides {
+  font-weight: 200;
+  font-size: 3.5vh;
+  margin-bottom: 3vh;
+}
+
+.detailedTides span {
+  font-weight: 400 !important;
+  font-size: 3.5vh !important;
+}
+
+.detailedTides img {
+  height: 10vh;
+}
+
+.fa-arrow-up {
+  color: #087308;
+}
+
+.fa-arrow-down {
+  color: #731408;
+}
