@@ -2,7 +2,16 @@ var favouritesHTML = '<div class="favourite" id="favourite-{shortLocationName}" 
 var innerFavouritesHTML = '<span>{locationName}</span><table><tr class="times"><td>{next1}</td><td>{next2}</td></tr><tr class="names"><td>Next {1}</td><td>Next {2}</td></tr></table>';
 
 var initialHeight;
-function setInitialHeight() { initialHeight = window.innerHeight; }
+function setup() {
+  initialHeight = window.innerHeight;
+  if (window.localStorage.getItem("tidesXSettings") != null) {
+    var settings = JSON.parse(window.localStorage.getItem("tidesXSettings"));
+    document.getElementById("sortSetting").checked = settings[0].sortSetting;
+    document.getElementById("cacheSetting").checked = settings[0].cacheSetting;
+  } else {
+    window.localStorage.setItem("tidesXSettings",'[{"sortSetting":false,"cacheSetting":false}]');
+  }
+}
 
 function getTideTimes(location,mode="today") {
   var timeBeforeRequest = new Date();
@@ -109,7 +118,9 @@ function changeTab(tab) {
       document.getElementById("titleBar").innerHTML = tab;
     } else {
       document.getElementById("titleBar").innerHTML = "TidesX";
-      showFavouriteLocations();
+      if (!JSON.parse(window.localStorage.getItem("tidesXSettings"))[0].cacheSetting) {
+        showFavouriteLocations();
+      }
     }
   }
 }
@@ -126,6 +137,10 @@ function showFavouriteLocations() {
     return;
   } else {
     document.getElementById("homeTab").innerHTML = "";
+  }
+
+  if (JSON.parse(window.localStorage.getItem("tidesXSettings"))[0].sortSetting) {
+    locations.sort();
   }
 
   locations.forEach(function(loc,index) {
@@ -192,4 +207,15 @@ function keyboardResize(keyboardUp) {
     var metaViewport = document.querySelector("meta[name=viewport]")
     metaViewport.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
   }
+}
+
+function changeSetting(setting) {
+  var settings = JSON.parse(window.localStorage.getItem("tidesXSettings"));
+  if (setting == "sort") {
+    settings[0].sortSetting = !settings[0].sortSetting;
+  } else if (setting == "cache") {
+    settings[0].cacheSetting = !settings[0].cacheSetting;
+  }
+  console.log(settings);
+  window.localStorage.setItem("tidesXSettings",JSON.stringify(settings));
 }

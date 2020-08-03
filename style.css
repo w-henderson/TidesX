@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;700&display=swap');
 
+/* MAIN CSS */
+
 body {
   margin: 0;
   padding: 0;
@@ -68,13 +70,17 @@ body {
   box-sizing: border-box;
   padding: 3vh 5vh;
   font-size: 3vh;
-  overflow: scroll;
+  overflow: auto;
   display: none;
 }
 
 .tabActive {
   display: block;
 }
+
+
+
+/* FAVOURITES PAGE CSS */
 
 .favourite {
   margin-bottom: 3vh;
@@ -107,6 +113,10 @@ body {
   height: 8vh;
 }
 
+
+
+/* LOCATION PAGE CSS */
+
 #locationTab span {
   font-weight: 500;
   font-size: 4vh;
@@ -135,6 +145,24 @@ body {
   color: #731408;
 }
 
+#locationTab button {
+  width: 48%;
+  height: 8vh;
+  font-size: 2.9vh;
+  font-family: Poppins;
+  font-weight: 500;
+  line-height: 3vh;
+  border: 0;
+  border-radius: 10px;
+  filter: drop-shadow(0px 0px 5px rgba(0%,10%,20%,50%));
+  outline: none;
+  background-color: white;
+}
+
+
+
+/* SEARCH PAGE CSS */
+
 #searchTab {
   padding: 0;
 }
@@ -153,9 +181,10 @@ body {
 
 #searchResults {
   width: 100%;
-  height: 100%;
-  overflow: scroll;
+  height: 65vh;
+  overflow: auto;
   padding: 3vh;
+  box-sizing: border-box;
 }
 
 #searchResults span {
@@ -163,8 +192,76 @@ body {
   margin-bottom: 2vh;
 }
 
-#locationTab button {
-  width: 48%;
+
+
+/* SETTINGS PAGE CSS */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 18vw;
+  height: 10.2vw;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #888;
+  -webkit-transition: 250ms;
+  transition: 250ms;
+  border-radius: 10.2vw
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 7.8vw;
+  width: 7.8vw;
+  left: 1.2vw;
+  bottom: 1.2vw;
+  background-color: white;
+  -webkit-transition: 250ms;
+  transition: 250ms;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(7.8vw);
+  -ms-transform: translateX(7.8vw);
+  transform: translateX(7.8vw);
+}
+
+#settingsTab table {
+  font-size: 3vh;
+  border-spacing: 0;
+}
+
+#settingsTab td {
+  width: 100%;
+  height: 8vh;
+}
+
+#settingsTab button {
+  width: 100%;
   height: 8vh;
   font-size: 2.9vh;
   font-family: Poppins;
@@ -175,4 +272,15 @@ body {
   filter: drop-shadow(0px 0px 5px rgba(0%,10%,20%,50%));
   outline: none;
   background-color: white;
+  margin: 2vh 0;
+}
+
+.linksAndThanks {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 20vh;
+  box-sizing: border-box;
+  padding: 3vh;
 }

@@ -19,7 +19,7 @@
 	<script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
 </head>
 
-<body onload="showFavouriteLocations();setInitialHeight();">
+<body onload="showFavouriteLocations();setup();">
   <div class="topBar">
     <div class="tabButtons">
       <i class="fa fa-search" id="searchTabButton" onclick="changeTab('search');"></i>
@@ -39,7 +39,36 @@
       Your favourite locations will appear here once you've chosen some.
     </div>
 
-    <div class="tab" id="settingsTab">Settings</div>
+    <div class="tab" id="settingsTab">
+      <table>
+        <tr>
+          <td>Sort favourites</td>
+          <td>
+            <label class="switch">
+              <input type="checkbox" id="sortSetting" onchange="changeSetting('sort');">
+              <span class="slider round"></span>
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <td>Cache favourites data</td>
+          <td>
+            <label class="switch">
+              <input type="checkbox" id="cacheSetting" onchange="changeSetting('cache');">
+              <span class="slider round"></span>
+            </label>
+          </td>
+        </tr>
+      </table>
+      <button onclick="window.localStorage.setItem('tidesXFavourites','[]');alert('Favourites cleared.');">Clear favourites</button><br>
+      <button onclick="window.localStorage.removeItem('tidesXFavourites');window.localStorage.removeItem('tidesXSettings');alert('All user data removed.');window.location.reload();">Clear all user data<br>(including settings)</button>
+
+      <div class="linksAndThanks">
+        Thank you for using TidesX!<br>
+        &copy; William Henderson 2020.<br>
+        Visit the <a href="https://github.com/w-henderson/TidesX">GitHub</a>.
+      </div>
+    </div>
 
     <div class="tab" id="locationTab">
       <span>Today</span>
