@@ -30,7 +30,10 @@
   </div>
 
   <div id="main">
-    <div class="tab" id="searchTab">Search</div>
+    <div class="tab" id="searchTab">
+      <input id="searchInput" oninput="updateSearch();" placeholder="Location Name">
+      <div id="searchResults">Type a few characters to search coastal locations.</div>
+    </div>
 
     <div class="tab tabActive" id="homeTab">
       Your favourite locations will appear here once you've chosen some.
@@ -47,6 +50,9 @@
       <div id="tomorrowTides" class="detailedTides">
         <img src="images/loading.gif">
       </div>
+
+      <button style="float:left;" id="favouritesButton" onclick="updateFavourites();">Add to favourites</button>
+      <button style="float:right;" onclick="alert('This feature is in development.');">More dates</button>
     </div>
   </div>
 </body>

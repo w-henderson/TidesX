@@ -99,14 +99,17 @@ function changeTab(tab) {
   document.getElementById("homeTabButton").className = "";
   document.getElementById("settingsTab").className = "tab";
   document.getElementById("settingsTabButton").className = "fa fa-cog";
+  document.getElementById("locationTab").className = "tab";
 
   document.getElementById(tab+"Tab").className += " tabActive";
   if (tab != "location") {
+    shownLocation = "";
     document.getElementById(tab+"TabButton").className += " selectedTab";
     if (tab != "home") {
       document.getElementById("titleBar").innerHTML = tab;
     } else {
       document.getElementById("titleBar").innerHTML = "TidesX";
+      showFavouriteLocations();
     }
   }
 }
@@ -131,7 +134,10 @@ function showFavouriteLocations() {
   });
 }
 
+var shownLocation = "";
+
 function loadLocationTab(location) {
+  shownLocation = location;
   document.getElementById("todayTides").innerHTML = '<img src="images/loading.gif">';
   document.getElementById("tomorrowTides").innerHTML = '<img src="images/loading.gif">';
   changeTab("location");
@@ -140,6 +146,39 @@ function loadLocationTab(location) {
   } else {
     document.getElementById("titleBar").innerHTML = sources[location].fullName;
   }
+  if (JSON.parse(window.localStorage.getItem("tidesXFavourites")).includes(location)) {
+    document.getElementById("favouritesButton").innerHTML = "Remove from favourites";
+  } else {
+    document.getElementById("favouritesButton").innerHTML = "Add to favourites";
+  }
   getTideTimes(location,"today");
   getTideTimes(location,"tomorrow");
+}
+
+function updateFavourites() {
+  var currentLS = JSON.parse(window.localStorage.getItem("tidesXFavourites"));
+  if (currentLS.includes(shownLocation)) {
+    currentLS.splice(currentLS.indexOf(shownLocation),1);
+    window.localStorage.setItem("tidesXFavourites",JSON.stringify(currentLS));
+    document.getElementById("favouritesButton").innerHTML = "Add to favourites";
+  } else {
+    currentLS.push(shownLocation);
+    window.localStorage.setItem("tidesXFavourites",JSON.stringify(currentLS));
+    document.getElementById("favouritesButton").innerHTML = "Remove from favourites";
+  }
+}
+
+function updateSearch() {
+  var searchString = document.getElementById("searchInput").value;
+  if (searchString.length < 2) {
+    document.getElementById("searchResults").innerHTML = "Type a few characters to search coastal locations.";
+  } else {
+    var resultHTML = "";
+    Object.keys(sources).forEach(function(source) {
+      if (sources[source].fullName.toLowerCase().includes(searchString.toLowerCase())) {
+        resultHTML += "<span onclick='loadLocationTab(\""+source+"\");'>"+sources[source].fullName+"</span>";
+      }
+    });
+    document.getElementById("searchResults").innerHTML = resultHTML;
+  }
 }
