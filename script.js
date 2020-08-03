@@ -1,7 +1,8 @@
-var globfortesting;
-
 var favouritesHTML = '<div class="favourite" id="favourite-{shortLocationName}" onclick="loadLocationTab(\'{shortLocationName}\')"><span>{locationName}</span><table><tr class="times"><td><img src="images/loading.gif"></td><td><img src="images/loading.gif"></td></tr><tr class="names"><td>Next High</td><td>Next Low</td></tr></table></div>';
 var innerFavouritesHTML = '<span>{locationName}</span><table><tr class="times"><td>{next1}</td><td>{next2}</td></tr><tr class="names"><td>Next {1}</td><td>Next {2}</td></tr></table>';
+
+var initialHeight;
+function setInitialHeight() { initialHeight = window.innerHeight; }
 
 function getTideTimes(location,mode="today") {
   var timeBeforeRequest = new Date();
@@ -13,7 +14,6 @@ function getTideTimes(location,mode="today") {
   }
   $.get("https://cors-anywhere.herokuapp.com/"+sources[location].url+extraURLData, function(data) {
     console.log(((new Date() - timeBeforeRequest)/1000)+"s for request");
-    globfortesting = data;
 
     // parse date data from javascript on page
     var wantedData = data.slice(data.indexOf("var next_high = "),data.indexOf("setTimeout(this.location.reload"));
@@ -180,5 +180,16 @@ function updateSearch() {
       }
     });
     document.getElementById("searchResults").innerHTML = resultHTML;
+  }
+}
+
+function keyboardResize(keyboardUp) {
+  if (keyboardUp) {
+    document.documentElement.style.setProperty("overflow", "auto");
+    var metaViewport = document.querySelector("meta[name=viewport]")
+    metaViewport.setAttribute("content", "height=" + initialHeight + ", width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
+  } else {
+    var metaViewport = document.querySelector("meta[name=viewport]")
+    metaViewport.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
   }
 }
