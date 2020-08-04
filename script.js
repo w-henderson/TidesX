@@ -134,6 +134,7 @@ function showFavouriteLocations() {
     locations = JSON.parse(locations);
   }
   if (locations.length == 0) {
+    document.getElementById("homeTab").innerHTML = "Your favourite locations will appear here once you've chosen some.";
     return;
   } else {
     document.getElementById("homeTab").innerHTML = "";
@@ -181,6 +182,7 @@ function updateFavourites() {
     window.localStorage.setItem("tidesXFavourites",JSON.stringify(currentLS));
     document.getElementById("favouritesButton").innerHTML = "Remove from favourites";
   }
+  showFavouriteLocations();
 }
 
 function updateSearch() {
@@ -218,4 +220,7 @@ function changeSetting(setting) {
   }
   console.log(settings);
   window.localStorage.setItem("tidesXSettings",JSON.stringify(settings));
+  if (setting == "sort") {
+    showFavouriteLocations();
+  }
 }

@@ -60,8 +60,9 @@
           </td>
         </tr>
       </table>
-      <button onclick="window.localStorage.setItem('tidesXFavourites','[]');alert('Favourites cleared.');">Clear favourites</button><br>
-      <button onclick="window.localStorage.removeItem('tidesXFavourites');window.localStorage.removeItem('tidesXSettings');alert('All user data removed.');window.location.reload();">Clear all user data<br>(including settings)</button>
+      <button onclick="window.localStorage.setItem('tidesXFavourites','[]');alert('Favourites cleared.');showFavouriteLocations();">Clear favourites</button><br>
+      <button onclick="window.localStorage.removeItem('tidesXFavourites');window.localStorage.removeItem('tidesXSettings');alert('All user data removed.');window.location.reload();">Clear all user data<br>(including settings)</button><br>
+      <button onclick="window.location.reload(true);">Force restart app</button>
 
       <div class="linksAndThanks">
         Thank you for using TidesX!<br>
