@@ -100,20 +100,32 @@ function getTideTimes(location,mode="today") {
             previousIndex = nextIndex-1;
           }
         });
-        if (previousIndex >= 0) { 
+        if (previousIndex >= 0 && nextIndex >= 0) {
           var previousHeight = heights[previousIndex];
           var previousTime = new Date();
           previousTime.setHours(rawTides[previousIndex].slice(0,2),rawTides[previousIndex].substring(3),0,0);
-        } else {
+          var nextTime = new Date();
+          nextTime.setHours(rawTides[nextIndex].slice(0,2),rawTides[nextIndex].substring(3),0,0);
+          var nextHeight = heights[nextIndex];
+        }  else if (nextIndex < 0) {
+          var nextTime = new Date();
+          nextTime.setHours(rawTides[rawTides.length-1].slice(0,2),rawTides[rawTides.length-1].substring(3),0,0);
+          nextTime.setHours(nextTime.getHours()+6);
+          var nextHeight = heights[heights.length-2];
+          var previousHeight = heights[heights.length-1];
+          var previousTime = new Date();
+          previousTime.setHours(rawTides[rawTides.length-1].slice(0,2),rawTides[rawTides.length-1].substring(3),0,0);
+        } else if (previousIndex < 0) {
           var previousHeight = heights[nextIndex+1];
           var previousTime = new Date();
           previousTime.setHours(rawTides[nextIndex].slice(0,2),rawTides[nextIndex].substring(3),0,0);
           previousTime.setHours(previousTime.getHours() - 6);
+          var nextTime = new Date();
+          nextTime.setHours(rawTides[nextIndex].slice(0,2),rawTides[nextIndex].substring(3),0,0);
+          var nextHeight = heights[nextIndex];
         }
         previousHeight = parseFloat(previousHeight.slice(0,4));
-        var nextHeight = parseFloat(heights[nextIndex].slice(0,4));
-        var nextTime = new Date();
-        nextTime.setHours(rawTides[nextIndex].slice(0,2),rawTides[nextIndex].substring(3),0,0);
+        nextHeight = parseFloat(nextHeight.slice(0,4));
 
         var linearInterpolate = (timeNow.getTime()-previousTime.getTime())/(nextTime.getTime()-previousTime.getTime()); // 0 - 1 linear between times
         var sineInterpolate = (Math.sin((linearInterpolate-0.5) * 180 * Math.PI / 180) + 1)/2; // 0 - 1 sine between heights (also rad conversion)
