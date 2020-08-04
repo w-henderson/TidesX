@@ -61,15 +61,6 @@ function getTideTimes(location,mode="today") {
     var dateWithoutTime = new Date();
     dateWithoutTime.setHours(0,0,0,0);
 
-    var tides = new Array(rawTides.length);
-    rawTides.forEach(function(tide,index) {
-      tides[index] = dateWithoutTime;
-      tides[index].setHours(parseInt(tide.substring(0,2)),parseInt(tide.substring(3,5)),0,0);
-      if (new Date() - tides[index] > 0) { // if next is tomorrow
-        tides[index].setDate(tides[index].getDate() + 1);
-      }
-    });
-
     if (mode == "favouritesPage") {
       if (nextHigh - nextLow > 0) { // if next high is after next low
         document.getElementById("favourite-"+location).innerHTML = innerFavouritesHTML
@@ -97,6 +88,39 @@ function getTideTimes(location,mode="today") {
         if (firstTide == "High") { firstTide = "Low" } else { firstTide = "High" }
       }
       document.getElementById(mode+"Tides").innerHTML = outputHTML;
+      if (mode == "today") {
+        var timeNow = new Date();
+        var previousIndex = -1;
+        var nextIndex = -1;
+        rawTides.forEach(function(tide,index) {
+          var parsedTide = new Date();
+          parsedTide.setHours(parseInt(tide.slice(0,2)),parseInt(tide.substring(3)),0,0);
+          if (parsedTide - timeNow > 0 && nextIndex == -1) {
+            nextIndex = index;
+            previousIndex = nextIndex-1;
+          }
+        });
+        if (previousIndex >= 0) { 
+          var previousHeight = heights[previousIndex];
+          var previousTime = new Date();
+          previousTime.setHours(rawTides[previousIndex].slice(0,2),rawTides[previousIndex].substring(3),0,0);
+        } else {
+          var previousHeight = heights[nextIndex+1];
+          var previousTime = new Date();
+          previousTime.setHours(rawTides[nextIndex].slice(0,2),rawTides[nextIndex].substring(3),0,0);
+          previousTime.setHours(previousTime.getHours() - 6);
+        }
+        previousHeight = parseFloat(previousHeight.slice(0,4));
+        var nextHeight = parseFloat(heights[nextIndex].slice(0,4));
+        var nextTime = new Date();
+        nextTime.setHours(rawTides[nextIndex].slice(0,2),rawTides[nextIndex].substring(3),0,0);
+
+        var linearInterpolate = (timeNow.getTime()-previousTime.getTime())/(nextTime.getTime()-previousTime.getTime()); // 0 - 1 linear between times
+        var sineInterpolate = (Math.sin((linearInterpolate-0.5) * 180 * Math.PI / 180) + 1)/2; // 0 - 1 sine between heights (also rad conversion)
+        var estimatedHeight = previousHeight + sineInterpolate * (nextHeight - previousHeight); // estimation of current height using sine interpolation
+
+        document.getElementById("currentHeight").innerHTML = (Math.round(estimatedHeight*100)/100).toString() + "m";
+      }
     }
   });
 }
@@ -113,6 +137,7 @@ function changeTab(tab) {
   document.getElementById(tab+"Tab").className += " tabActive";
   if (tab != "location") {
     shownLocation = "";
+    document.getElementById("currentHeight").innerHTML = "<img src='images/loading.gif'>";
     document.getElementById(tab+"TabButton").className += " selectedTab";
     if (tab != "home") {
       document.getElementById("titleBar").innerHTML = tab;
