@@ -3,9 +3,12 @@
 <head>
   <title>TidesX</title>
   <link rel="stylesheet" href="style.css">
+
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
   <script src="data/sources.js"></script>
+  <script src="data/moonPhase.js"></script>
   <script src="script.js"></script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -16,7 +19,6 @@
   <meta name="application-name" content="TidesX">
 	<meta name="apple-mobile-web-app-title" content="TidesX">
 	<meta name="msapplication-starturl" content="/">
-	<script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
 </head>
 
 <body onload="showFavouriteLocations();setup();">
@@ -72,17 +74,32 @@
     </div>
 
     <div class="tab" id="locationTab">
-      <span>Today (currently <span id="currentHeight"><img src="images/loading.gif"></span>)</span>
-      <div id="todayTides" class="detailedTides">
-        <img src="images/loading.gif">
-      </div>
-      <span>Tomorrow</span>
-      <div id="tomorrowTides" class="detailedTides">
-        <img src="images/loading.gif">
+      <div class="subTab subTabActive" id="mainLocationInfo">
+        <span>Today (currently <span id="currentHeight"><img src="images/loading.gif"></span>)</span>
+        <div id="todayTides" class="detailedTides">
+          <img src="images/loading.gif">
+        </div>
+        <span>Tomorrow</span>
+        <div id="tomorrowTides" class="detailedTides">
+          <img src="images/loading.gif">
+        </div>
+
+        <button style="float:left;" id="favouritesButton" onclick="updateFavourites();">Add to favourites</button>
+        <button style="float:right;" onclick="toggleSubTab('extra');">More info</button>
       </div>
 
-      <button style="float:left;" id="favouritesButton" onclick="updateFavourites();">Add to favourites</button>
-      <button style="float:right;" onclick="alert('This feature is in development.');">More dates</button>
+      <div class="subTab" id="extraLocationInfo">
+        <div id="moonInfo">
+          <span>Moon Phase:</span><br>
+          <img src="images/moon/0.svg"> Moon Phase
+        </div>
+        <hr>
+        <div id="extraDates">
+          <img src="images/loading.gif" style="height:10vh;">
+        </div>
+
+        <button style="float:right;" onclick="toggleSubTab('main');">Back</button>
+      </div>
     </div>
   </div>
 </body>

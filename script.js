@@ -1,5 +1,28 @@
 var favouritesHTML = '<div class="favourite" id="favourite-{shortLocationName}" onclick="loadLocationTab(\'{shortLocationName}\')"><span>{locationName}</span><table><tr class="times"><td><img src="images/loading.gif"></td><td><img src="images/loading.gif"></td></tr><tr class="names"><td>Next High</td><td>Next Low</td></tr></table></div>';
 var innerFavouritesHTML = '<span>{locationName}</span><table><tr class="times"><td>{next1}</td><td>{next2}</td></tr><tr class="names"><td>Next {1}</td><td>Next {2}</td></tr></table>';
+var months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+]
+var days = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday"
+]
 
 var initialHeight;
 function setup() {
@@ -20,6 +43,8 @@ function getTideTimes(location,mode="today") {
     var tomorrowDate = new Date();
     tomorrowDate.setDate(tomorrowDate.getDate()+1);
     extraURLData = "-" + tomorrowDate.getFullYear().toString() + (tomorrowDate.getMonth()+1).toString().padStart(2,"0") + tomorrowDate.getDate().toString().padStart(2,"0");
+  } else if (mode != "today" && mode != "favouritesPage") {
+    extraURLData = "-"+mode;
   }
   $.get("https://cors-anywhere.herokuapp.com/"+sources[location].url+extraURLData, function(data) {
     console.log(((new Date() - timeBeforeRequest)/1000)+"s for request");
@@ -51,9 +76,9 @@ function getTideTimes(location,mode="today") {
     );
 
     // parse date data from html on page
-    var rawTides = data.match(/\d{2}:\d{2}/g) // high, low, high, low
-    rawTides = rawTides.slice(0,rawTides.length-1);
-    var heights = data.match(/\d\.\d{2}m/g).slice(0,4) // high, low, high, low
+    var rawTides = data.match(/\d{2}:\d{2}<\/span>/g) // high, low, high, low
+    rawTides.forEach(function(tide,index) { rawTides[index] = tide.replace("</span>","") });
+    var heights = data.match(/\d\.\d{2}m/g).slice(0,rawTides.length) // high, low, high, low
 
     console.log(rawTides);
     console.log(heights);
@@ -77,7 +102,7 @@ function getTideTimes(location,mode="today") {
           .replace("{1}","High")
           .replace("{2}","Low");
       }
-    } else {
+    } else if (mode == "today" || mode == "tomorrow") {
       var firstTide = "High";
       if (parseInt(heights[0].slice(0,4)) < parseInt(heights[1].slice(0,4))) {
         firstTide = "Low";
@@ -133,6 +158,20 @@ function getTideTimes(location,mode="today") {
 
         document.getElementById("currentHeight").innerHTML = (Math.round(estimatedHeight*100)/100).toString() + "m";
       }
+    } else {
+      var firstTide = "High";
+      if (parseInt(heights[0].slice(0,4)) < parseInt(heights[1].slice(0,4))) {
+        firstTide = "Low";
+      }
+      var actualDate = new Date(mode.slice(0,4),parseInt(mode.slice(4,6))-1,mode.slice(6,8));
+      var formattedDate = days[actualDate.getDay()] + " " + actualDate.getDate().toString() + " " + months[actualDate.getMonth()];
+      var outputHTML = "<span dateForSort='"+mode+"'>"+formattedDate+"</span><div class='detailedTides'>";
+      for (let i = 0; i < rawTides.length; i++) {
+        outputHTML += firstTide + ": <span>" + rawTides[i] + " (" + heights[i] + ")</span><br>";
+        if (firstTide == "High") { firstTide = "Low" } else { firstTide = "High" }
+      }
+      extraDatesHTML.push(outputHTML+"</div>");
+      showExtraDates();
     }
   });
 }
@@ -151,6 +190,9 @@ function changeTab(tab) {
     shownLocation = "";
     document.getElementById("currentHeight").innerHTML = "<img src='images/loading.gif'>";
     document.getElementById(tab+"TabButton").className += " selectedTab";
+    document.getElementById("mainLocationInfo").className = "subTab subTabActive";
+    document.getElementById("extraLocationInfo").className = "subTab";
+    document.getElementById("extraDates").innerHTML = '<img src="images/loading.gif" style="height:10vh;">';
     if (tab != "home") {
       document.getElementById("titleBar").innerHTML = tab;
     } else {
@@ -260,4 +302,36 @@ function changeSetting(setting) {
   if (setting == "sort") {
     showFavouriteLocations();
   }
+}
+
+var extraDatesHTML = [];
+
+function toggleSubTab(tab) {
+  if (tab == "extra") {
+    document.getElementById("mainLocationInfo").className = "subTab";
+    document.getElementById("extraLocationInfo").className = "subTab subTabActive";
+    var currentDate = new Date();
+    currentDate.setDate(currentDate.getDate()+1);
+    for (let i = 0; i < 5; i++) {
+      currentDate.setDate(currentDate.getDate()+1);
+      var dateString = currentDate.getFullYear().toString() + (currentDate.getMonth()+1).toString().padStart(2,"0") + currentDate.getDate().toString().padStart(2,"0");
+      console.log(dateString);
+      getTideTimes(shownLocation,dateString);
+    }
+    currentDate = new Date();
+    var mPhase = moonPhase(parseInt(currentDate.getDate()),parseInt(currentDate.getMonth())+1,parseInt(currentDate.getFullYear()));
+    document.getElementById("moonInfo").innerHTML = "<span>Moon Phase:</span><br><img src='images/moon/"+mPhase.toString()+".svg'> "+moonPhases[mPhase];
+  } else {
+    document.getElementById("mainLocationInfo").className = "subTab subTabActive";
+    document.getElementById("extraLocationInfo").className = "subTab";
+    document.getElementById("extraDates").innerHTML = '<img src="images/loading.gif" style="height:10vh;">';
+  }
+}
+
+function showExtraDates() {
+  if (extraDatesHTML.length == 5) {
+    extraDatesHTML.sort();
+    document.getElementById("extraDates").innerHTML = extraDatesHTML.join("");
+    extraDatesHTML = [];
+  } 
 }

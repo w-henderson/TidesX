@@ -16,4 +16,5 @@ TidesX is available on GitHub Pages, where you need to install it as a web app. 
 <img src="images/screenshots/homepage.png" width=400>
 <img src="images/screenshots/search.png" width=400>
 <img src="images/screenshots/detail.png" width=400>
+<img src="images/screenshots/moreinfo.png" width=400>
 <img src="images/screenshots/settings.png" width=400>
