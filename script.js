@@ -15,13 +15,13 @@ var months = [
   "December"
 ]
 var days = [
+  "Sunday",
   "Monday",
   "Tuesday",
   "Wednesday",
   "Thursday",
   "Friday",
-  "Saturday",
-  "Sunday"
+  "Saturday"
 ]
 
 var initialHeight;
