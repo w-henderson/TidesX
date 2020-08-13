@@ -46,7 +46,7 @@ function getTideTimes(location,mode="today") {
   } else if (mode != "today" && mode != "favouritesPage") {
     extraURLData = "-"+mode;
   }
-  $.get("https://cors-anywhere.herokuapp.com/"+sources[location].url+extraURLData, function(data) {
+  $.get("https://cors-anywhere-mirror.herokuapp.com/"+sources[location].url+extraURLData, function(data) {
     console.log(((new Date() - timeBeforeRequest)/1000)+"s for request");
 
     // parse date data from javascript on page
