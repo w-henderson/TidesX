@@ -3,6 +3,8 @@
 # TidesX
 A quick and easy way to check the tide times.
 
+[<img src="images/trailer_thumbnail.png" width=600>](https://www.youtube.com/watch?v=vz3CJ-kDiPc)
+
 ## What is TidesX?
 TidesX is an app to check the tide times. It has a clean and beautiful interface and intuitive design, so the information you need is never more than a tap away.
 
