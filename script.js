@@ -109,7 +109,14 @@ function getTideTimes(location,mode="today") {
       }
       var outputHTML = "";
       for (let i = 0; i < rawTides.length; i++) {
-        outputHTML += firstTide + ": <span>" + rawTides[i] + " (" + heights[i] + ")</span><br>";
+        var tideDate = new Date();
+        tideDate.setHours(parseInt(rawTides[i].substring(0,2)),parseInt(rawTides[i].substring(3,5)),0,0);
+        var currentTime = new Date();
+        pastString = "";
+        if (currentTime - tideDate > 0 && mode == "today") {
+          pastString = " style=\"opacity: 0.25;\"";
+        }
+        outputHTML += "<a"+pastString+">"+firstTide + ": <span>" + rawTides[i] + " (" + heights[i] + ")</span></a><br>";
         if (firstTide == "High") { firstTide = "Low" } else { firstTide = "High" }
       }
       document.getElementById(mode+"Tides").innerHTML = outputHTML;
