@@ -1,4 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;700&display=swap");
+
+/* DARK AND LIGHT MODE CSS */
+
+.lightMode {
+  --standard-text-color: #00020f;
+  --inverse-text-color: #f2f4ff;
+  --lighter-background-color: #33b4ff;
+  --darker-background-color: #007bc2;
+  --darkest-background-color: #d6f0ff;
+  --button-color: #f2f4ff;
+}
+
+.darkMode {
+  --standard-text-color: #f2f4ff;
+  --inverse-text-color: #f2f4ff;
+  --lighter-background-color: #222;
+  --darker-background-color: #111;
+  --darkest-background-color: black;
+  --button-color: #222;
+}
 
 /* MAIN CSS */
 
@@ -12,8 +32,12 @@ body {
 .topBar {
   height: 25vh;
   width: 100%;
-  background: linear-gradient(to bottom, #33b4ff, #007bc2);
-  color: #f2f4ff;
+  background: linear-gradient(
+    to bottom,
+    var(--lighter-background-color),
+    var(--darker-background-color)
+  );
+  color: var(--inverse-text-color);
 }
 
 .tabButtons {
@@ -29,19 +53,19 @@ body {
   height: 11vh;
   padding: 0 10vw;
   vertical-align: middle;
-  filter: drop-shadow(0px 0px 3px rgba(0,0,0,0.5));
+  filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.5));
   opacity: 0.5;
   transition: 250ms;
 }
 
 .tabButtons i {
-  filter: drop-shadow(0px 0px 3px rgba(0,0,0,0.5));
+  filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.5));
   opacity: 0.5;
   transition: 250ms;
 }
 
 .selectedTab {
-  filter: drop-shadow(0px 0px 3px rgba(0,0,0,1)) !important;
+  filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 1)) !important;
   transform: scale(1.1);
   opacity: 1 !important;
 }
@@ -53,15 +77,15 @@ body {
   font-size: 6vh;
   font-weight: 700;
   text-transform: capitalize;
-  filter: drop-shadow(0px 0px 3px rgba(0,0,0,1));
+  filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 1));
 }
 
 #main {
   height: 75vh;
   width: 100%;
-  background-color: #d6f0ff;
-  color: #00020f;
-  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.25);
+  background-color: var(--darkest-background-color);
+  color: var(--standard-text-color);
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
 }
 
 .tab {
@@ -78,7 +102,9 @@ body {
   display: block;
 }
 
-
+table {
+  color: var(--standard-text-color);
+}
 
 /* FAVOURITES PAGE CSS */
 
@@ -112,8 +138,6 @@ body {
 .favourite tr.times img {
   height: 8vh;
 }
-
-
 
 /* LOCATION PAGE CSS */
 
@@ -154,9 +178,10 @@ body {
   line-height: 3vh;
   border: 0;
   border-radius: 10px;
-  filter: drop-shadow(0px 0px 5px rgba(0%,10%,20%,50%));
+  filter: drop-shadow(0px 0px 5px rgba(0%, 10%, 20%, 50%));
   outline: none;
-  background-color: white;
+  color: var(--standard-text-color);
+  background-color: var(--button-color);
 }
 
 #currentHeight img {
@@ -182,10 +207,8 @@ body {
   height: 7vh;
   vertical-align: middle;
   margin-right: 2.5vw;
-  filter: drop-shadow(0px 0px 5px rgba(0%,10%,20%,50%));
+  filter: drop-shadow(0px 0px 5px rgba(0%, 10%, 20%, 50%));
 }
-
-
 
 /* SEARCH PAGE CSS */
 
@@ -202,7 +225,7 @@ body {
   padding: 3vh;
   border: none;
   outline: none;
-  filter: drop-shadow(0px 0px 3px rgba(0,0,0,0.5));
+  filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.5));
 }
 
 #searchResults {
@@ -218,8 +241,6 @@ body {
   margin-bottom: 2vh;
 }
 
-
-
 /* SETTINGS PAGE CSS */
 
 .switch {
@@ -230,7 +251,7 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -246,7 +267,7 @@ body {
   background-color: #888;
   -webkit-transition: 250ms;
   transition: 250ms;
-  border-radius: 10.2vw
+  border-radius: 10.2vw;
 }
 
 .slider:before {
@@ -263,11 +284,11 @@ body {
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #33b4ff;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #33b4ff;
 }
 
 input:checked + .slider:before {
@@ -283,7 +304,7 @@ input:checked + .slider:before {
 
 #settingsTab td {
   width: 100%;
-  height: 8vh;
+  height: 7vh;
 }
 
 #settingsTab button {
@@ -295,10 +316,11 @@ input:checked + .slider:before {
   line-height: 3vh;
   border: 0;
   border-radius: 10px;
-  filter: drop-shadow(0px 0px 5px rgba(0%,10%,20%,50%));
+  filter: drop-shadow(0px 0px 5px rgba(0%, 10%, 20%, 50%));
   outline: none;
-  background-color: white;
-  margin: 2vh 0;
+  background-color: var(--button-color);
+  color: var(--standard-text-color);
+  margin: 1vh 0;
 }
 
 .linksAndThanks {

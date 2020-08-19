@@ -15,8 +15,7 @@ Originally, I planned for TidesX to get its data from the UK Hydrographic Office
 TidesX is available on GitHub Pages, where you need to install it as a web app. This means opening it in your browser [here](https://w-henderson.github.io/TidesX), then adding it to your home screen.
 
 # Screenshots
-<img src="images/screenshots/homepage.png" width=400>
-<img src="images/screenshots/search.png" width=400>
-<img src="images/screenshots/detail.png" width=400>
-<img src="images/screenshots/moreinfo.png" width=400>
-<img src="images/screenshots/settings.png" width=400>
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img width="400" src="images/screenshots/homepage.png">  |  <img width="400" src="images/screenshots/darkmode.png">  |  <img width="400" src="images/screenshots/detail.png">|
+|<img width="400" src="images/screenshots/detail.png">  |  <img width="400" src="images/screenshots/moreinfo.png">  |  <img width="400" src="images/screenshots/settings.png">|

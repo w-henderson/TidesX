@@ -10,7 +10,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-175787828-1"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'UA-175787828-1');
@@ -21,16 +21,16 @@
   <script src="script.js"></script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<link rel="icon" href="images/icon.png">
+  <link rel="icon" href="images/icon.png">
   <link rel="apple-touch-icon" href="images/ios-icon.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="application-name" content="TidesX">
-	<meta name="apple-mobile-web-app-title" content="TidesX">
-	<meta name="msapplication-starturl" content="/">
+  <meta name="apple-mobile-web-app-title" content="TidesX">
+  <meta name="msapplication-starturl" content="/">
 </head>
 
-<body onload="showFavouriteLocations();setup();">
+<body onload="showFavouriteLocations();setup();" class="lightMode">
   <div class="topBar">
     <div class="tabButtons">
       <i class="fa fa-search" id="searchTabButton" onclick="changeTab('search');"></i>
@@ -42,7 +42,8 @@
 
   <div id="main">
     <div class="tab" id="searchTab">
-      <input id="searchInput" oninput="updateSearch();" placeholder="Location Name" autocomplete="off" onfocus="keyboardResize(true);" onblur="keyboardResize(false);">
+      <input id="searchInput" oninput="updateSearch();" placeholder="Location Name" autocomplete="off"
+        onfocus="keyboardResize(true);" onblur="keyboardResize(false);">
       <div id="searchResults">Type a few characters to search coastal locations.</div>
     </div>
 
@@ -52,6 +53,15 @@
 
     <div class="tab" id="settingsTab">
       <table>
+        <tr>
+          <td>Dark mode</td>
+          <td>
+            <label class="switch">
+              <input type="checkbox" id="darkModeSetting" onchange="changeSetting('darkmode');">
+              <span class="slider round"></span>
+            </label>
+          </td>
+        </tr>
         <tr>
           <td>Sort favourites</td>
           <td>
@@ -71,8 +81,12 @@
           </td>
         </tr>
       </table>
-      <button onclick="window.localStorage.setItem('tidesXFavourites','[]');alert('Favourites cleared.');showFavouriteLocations();">Clear favourites</button><br>
-      <button onclick="window.localStorage.removeItem('tidesXFavourites');window.localStorage.removeItem('tidesXSettings');alert('All user data removed.');window.location.reload();">Clear all user data<br>(including settings)</button><br>
+      <button
+        onclick="window.localStorage.setItem('tidesXFavourites','[]');alert('Favourites cleared.');showFavouriteLocations();">Clear
+        favourites</button><br>
+      <button
+        onclick="window.localStorage.removeItem('tidesXFavourites');window.localStorage.removeItem('tidesXSettings');alert('All user data removed.');window.location.reload();">Clear
+        all user data<br>(including settings)</button><br>
       <button onclick="window.location.reload(true);">Force restart app</button>
 
       <div class="linksAndThanks">
