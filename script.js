@@ -50,7 +50,7 @@ function requestTideTimes(location, mode = "today") {
       renderFavouritesPage(data, location, sources);
     } else if (mode == "today" || mode == "tomorrow") {
       renderLocationPage(rawTides, heights, mode);
-      if (mode == "today") { heightInterpolation(rawTides, heights); }
+      if (mode == "today") { heightInterpolation(rawTides, heights); addSunriseSunsetInfo(data); }
     } else {
       // additional information, render
       var firstTide = parseInt(heights[0].slice(0, 4)) < parseInt(heights[1].slice(0, 4)) ? "High" : "Low";
@@ -164,6 +164,20 @@ function heightInterpolation(rawTides, heights) {
   document.getElementById("currentHeight").innerHTML = (Math.round(estimatedHeight * 100) / 100).toString() + "m";
 }
 
+function addSunriseSunsetInfo(data) {
+  // parse data to find sunrise and sunset
+  var sunrise = data.match(/<div>Sunrise:<span>(.*?)<\/span><\/div>/)[0]
+    .replace("<div>Sunrise:<span>", "")
+    .replace("</span></div>", "");
+  var sunset = data.match(/<div>Sunset:<span>(.*?)<\/span><\/div>/)[0]
+    .replace("<div>Sunset:<span>", "")
+    .replace("</span></div>", "");
+
+  // render it
+  document.getElementById("sunrise").innerHTML = "<span>Sunrise: </span>" + sunrise;
+  document.getElementById("sunset").innerHTML = "<span>Sunset: </span>" + sunset;
+}
+
 function changeTab(tab) {
   // change classes to render tab change
   document.getElementById("searchTab").className = "tab";
@@ -182,6 +196,8 @@ function changeTab(tab) {
     document.getElementById("mainLocationInfo").className = "subTab subTabActive";
     document.getElementById("extraLocationInfo").className = "subTab";
     document.getElementById("extraDates").innerHTML = '<img src="images/loading.gif" style="height:10vh;">';
+    document.getElementById("sunrise").innerHTML = "";
+    document.getElementById("sunset").innerHTML = "";
     if (tab != "home") {
       document.getElementById("titleBar").innerHTML = tab;
     } else {
