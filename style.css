@@ -14,10 +14,10 @@
 .darkMode {
   --standard-text-color: #f2f4ff;
   --inverse-text-color: #f2f4ff;
-  --lighter-background-color: #222;
-  --darker-background-color: #111;
+  --lighter-background-color: #334;
+  --darker-background-color: #223;
   --darkest-background-color: black;
-  --button-color: #222;
+  --button-color: #334;
 }
 
 /* MAIN CSS */
