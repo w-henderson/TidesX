@@ -1,0 +1,1 @@
+self.addEventListener('fetch', function (event) { }); // this is what makes it a pwa

@@ -1,0 +1,23 @@
+{
+  "name": "TidesX",
+  "short_name": "TidesX",
+  "lang": "en-GB",
+  "icons": [
+    {
+      "src": "/images/icon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/images/icon-small.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#33b4ff",
+  "background_color": "#d6f0ff",
+  "orientation": "portrait"
+}

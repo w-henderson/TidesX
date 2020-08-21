@@ -4,10 +4,23 @@ const months = ["January", "February", "March", "April", "May", "June", "July", 
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var extraDatesHTML = [];
 
-// read local storage for settings and apply them
 var initialHeight;
 function setup() {
   initialHeight = window.innerHeight;
+
+  // set up as pwa
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service_worker.js', {
+      scope: "/"
+    })
+      .then(function (reg) {
+        console.log("Service worker registered.");
+      }).catch(function (err) {
+        console.log("Service worker not registered. This happened:", err)
+      });
+  }
+
+  // read settings from localstorage and apply them
   if (window.localStorage.getItem("tidesXSettings") != null) {
     var settings = JSON.parse(window.localStorage.getItem("tidesXSettings"));
     document.getElementById("sortSetting").checked = settings[0].sortSetting;
