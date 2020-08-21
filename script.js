@@ -11,7 +11,7 @@ function setup() {
   // set up as pwa
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('service_worker.js', {
-      scope: "/"
+      scope: "/TidesX/"
     })
       .then(function (reg) {
         console.log("Service worker registered.");
