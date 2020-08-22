@@ -66,7 +66,7 @@ function requestTideTimes(location, mode = "today") {
       if (mode == "today") { heightInterpolation(rawTides, heights); addSunriseSunsetInfo(data); }
     } else {
       // additional information, render
-      var firstTide = parseInt(heights[0].slice(0, 4)) < parseInt(heights[1].slice(0, 4)) ? "High" : "Low";
+      var firstTide = parseInt(heights[0].slice(0, 4)) > parseInt(heights[1].slice(0, 4)) ? "High" : "Low";
       var actualDate = new Date(mode.slice(0, 4), parseInt(mode.slice(4, 6)) - 1, mode.slice(6, 8));
       var formattedDate = days[actualDate.getDay()] + " " + actualDate.getDate().toString() + " " + months[actualDate.getMonth()];
       var outputHTML = "<span dateForSort='" + mode + "'>" + formattedDate + "</span><div class='detailedTides'>";
@@ -109,7 +109,7 @@ function renderFavouritesPage(data, location, sources) {
 }
 
 function renderLocationPage(rawTides, heights, mode) {
-  var firstTide = parseInt(heights[0].slice(0, 4)) < parseInt(heights[1].slice(0, 4)) ? "High" : "Low"; // if first tide is higher than second then first tide is high
+  var firstTide = parseInt(heights[0].slice(0, 4)) > parseInt(heights[1].slice(0, 4)) ? "High" : "Low"; // if first tide is higher than second then first tide is high
   var outputHTML = "";
   for (let i = 0; i < rawTides.length; i++) {
     var tideDate = new Date();
