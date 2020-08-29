@@ -106,6 +106,14 @@ table {
   color: var(--standard-text-color);
 }
 
+button {
+  transition: 100ms;
+}
+
+button:active {
+  transform: scale(0.8);
+}
+
 /* FAVOURITES PAGE CSS */
 
 .favourite {
