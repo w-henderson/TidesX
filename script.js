@@ -270,8 +270,8 @@ function loadLocationTab(location) {
 
   // if in favourites, add option to remove, otherwise option to add
   document.getElementById("favouritesButton").innerHTML = JSON.parse(window.localStorage.getItem("tidesXFavourites")).includes(location)
-    ? "Remove from favourites"
-    : "Add to favourites";
+    ? "Unfavourite"
+    : "Favourite";
 
   // get and then render tide times for today and tomorrow
   requestTideTimes(location, "today");
@@ -283,11 +283,11 @@ function updateFavourites() {
   if (currentLS.includes(shownLocation)) { // if location to change is in favourites, remove it
     currentLS.splice(currentLS.indexOf(shownLocation), 1);
     window.localStorage.setItem("tidesXFavourites", JSON.stringify(currentLS));
-    document.getElementById("favouritesButton").innerHTML = "Add to favourites";
+    document.getElementById("favouritesButton").innerHTML = "Favourite";
   } else { // if location to change isn't in favourites, add it
     currentLS.push(shownLocation);
     window.localStorage.setItem("tidesXFavourites", JSON.stringify(currentLS));
-    document.getElementById("favouritesButton").innerHTML = "Remove from favourites";
+    document.getElementById("favouritesButton").innerHTML = "Unfavourite";
   }
   showFavouriteLocations();
 }
