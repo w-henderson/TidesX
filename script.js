@@ -263,10 +263,8 @@ function loadLocationTab(location) {
   document.getElementById("tomorrowTides").innerHTML = '<img src="images/loading.gif">';
   changeTab("location");
 
-  // if name too long, shorten it and add ellipsis
-  document.getElementById("titleBar").innerHTML = sources[location].fullName.length > 14
-    ? sources[location].fullName.substring(0, 14) + "..."
-    : sources[location].fullName;
+  // change the shown name
+  document.getElementById("titleBar").innerHTML = sources[location].fullName;
 
   // if in favourites, add option to remove, otherwise option to add
   document.getElementById("favouritesButton").innerHTML = JSON.parse(window.localStorage.getItem("tidesXFavourites")).includes(location)

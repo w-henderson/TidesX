@@ -78,6 +78,11 @@ body {
   font-weight: 700;
   text-transform: capitalize;
   filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 1));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
+  padding: 1vh;
 }
 
 #main {
