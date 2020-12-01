@@ -48,38 +48,41 @@ function requestTideTimes(location, mode = "today") {
   }
 
   // perform request
-  $.get("https://cors-anywhere-mirror.herokuapp.com/" + sources[location].url + extraURLData, function (data) {
-    console.log(((new Date() - timeBeforeRequest) / 1000) + "s for request");
+  window.fetch("https://cors-anywhere-mirror.herokuapp.com/" + sources[location].url + extraURLData)
+    .then((response) => {
+      response.text().then((data) => {
+        console.log(((new Date() - timeBeforeRequest) / 1000) + "s for request");
 
-    // parse raw tide data from html on page (leave as string because date manipulation not needed)
-    var rawTides = data.match(/\d{2}:\d{2}<\/span>/g) // high, low, high, low
-    rawTides.forEach(function (tide, index) { rawTides[index] = tide.replace("</span>", "") });
-    var heights = data.match(/\d\.\d{2}m/g).slice(0, rawTides.length) // high, low, high, low
+        // parse raw tide data from html on page (leave as string because date manipulation not needed)
+        var rawTides = data.match(/\d{2}:\d{2}<\/span>/g) // high, low, high, low
+        rawTides.forEach(function (tide, index) { rawTides[index] = tide.replace("</span>", "") });
+        var heights = data.match(/\d\.\d{2}m/g).slice(0, rawTides.length) // high, low, high, low
 
-    console.log({ rawTides, heights });
+        console.log({ rawTides, heights });
 
-    // detect page type and call render method
-    if (mode == "favouritesPage") {
-      renderFavouritesPage(data, location, sources);
-    } else if (mode == "today" || mode == "tomorrow") {
-      renderLocationPage(rawTides, heights, mode);
-      if (mode == "today") { heightInterpolation(rawTides, heights); addSunriseSunsetInfo(data); }
-    } else {
-      // additional information, render
-      var firstTide = parseInt(heights[0].slice(0, 4)) > parseInt(heights[1].slice(0, 4)) ? "High" : "Low";
-      var actualDate = new Date(mode.slice(0, 4), parseInt(mode.slice(4, 6)) - 1, mode.slice(6, 8));
-      var formattedDate = days[actualDate.getDay()] + " " + actualDate.getDate().toString() + " " + months[actualDate.getMonth()];
-      var outputHTML = "<span dateForSort='" + mode + "'>" + formattedDate + "</span><div class='detailedTides'>";
+        // detect page type and call render method
+        if (mode == "favouritesPage") {
+          renderFavouritesPage(data, location, sources);
+        } else if (mode == "today" || mode == "tomorrow") {
+          renderLocationPage(rawTides, heights, mode);
+          if (mode == "today") { heightInterpolation(rawTides, heights); addSunriseSunsetInfo(data); }
+        } else {
+          // additional information, render
+          var firstTide = parseInt(heights[0].slice(0, 4)) > parseInt(heights[1].slice(0, 4)) ? "High" : "Low";
+          var actualDate = new Date(mode.slice(0, 4), parseInt(mode.slice(4, 6)) - 1, mode.slice(6, 8));
+          var formattedDate = days[actualDate.getDay()] + " " + actualDate.getDate().toString() + " " + months[actualDate.getMonth()];
+          var outputHTML = "<span dateForSort='" + mode + "'>" + formattedDate + "</span><div class='detailedTides'>";
 
-      for (let i = 0; i < rawTides.length; i++) {
-        outputHTML += firstTide + ": <span>" + rawTides[i] + " (" + heights[i] + ")</span><br>";
-        if (firstTide == "High") { firstTide = "Low" } else { firstTide = "High" }
-      }
+          for (let i = 0; i < rawTides.length; i++) {
+            outputHTML += firstTide + ": <span>" + rawTides[i] + " (" + heights[i] + ")</span><br>";
+            if (firstTide == "High") { firstTide = "Low" } else { firstTide = "High" }
+          }
 
-      extraDatesHTML.push(outputHTML + "</div>");
-      showExtraDates(); // checks if all dates are ready, if not waits
-    }
-  });
+          extraDatesHTML.push(outputHTML + "</div>");
+          showExtraDates(); // checks if all dates are ready, if not waits
+        }
+      });
+    });
 }
 
 function renderFavouritesPage(data, location, sources) {
