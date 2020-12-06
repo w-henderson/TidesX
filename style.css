@@ -263,6 +263,11 @@ button:active {
   margin-bottom: 2vh;
 }
 
+#searchResults u {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 /* SETTINGS PAGE CSS */
 
 .switch {
