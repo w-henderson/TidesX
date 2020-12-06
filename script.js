@@ -297,7 +297,7 @@ function updateFavourites() {
 function updateSearch() {
   var searchString = document.getElementById("searchInput").value;
   if (searchString.length < 2) { // if too many results ask for more characters
-    document.getElementById("searchResults").innerHTML = "Type a few characters to search coastal locations.";
+    document.getElementById("searchResults").innerHTML = 'Type a few characters to search coastal locations, or <u onclick="updateSearchNear();">tap here</u> to find your closest location.';
   } else { // perform search
     var resultHTML = "";
     Object.keys(sources).forEach(function (source) {
@@ -307,6 +307,30 @@ function updateSearch() {
     });
     document.getElementById("searchResults").innerHTML = resultHTML;
   }
+}
+
+function updateSearchNear() {
+  navigator.geolocation.getCurrentPosition(function (position) {
+    let closest;
+    let distance = 2 ** 16;
+
+    if (position.coords.latitude < 49 || position.coords.latitude > 61 || position.coords.longitude < -8 || position.coords.longitude > 4) {
+      document.getElementById("searchResults").innerHTML = "Type a few characters to search coastal locations.<br><br>TidesX is only available for the UK, and we've detected that you're currently outside the UK. If this is incorrect, please open an issue on GitHub.";
+      return;
+    }
+
+    Object.keys(sources).forEach(function (source) {
+      let distanceThisSource = Math.sqrt((position.coords.latitude - sources[source].coords[0]) ** 2 + (position.coords.longitude - sources[source].coords[1]) ** 2);
+      if (distanceThisSource < distance) {
+        closest = source;
+        distance = distanceThisSource;
+      }
+    });
+
+    loadLocationTab(closest);
+  }, function (err) {
+    document.getElementById("searchResults").innerHTML = "Type a few characters to search coastal locations.<br><br>An error occured during geolocation; please search for your location instead.";
+  });
 }
 
 function keyboardResize(keyboardUp) {

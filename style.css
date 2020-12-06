@@ -9,6 +9,8 @@
   --darker-background-color: #007bc2;
   --darkest-background-color: #d6f0ff;
   --button-color: #f2f4ff;
+  --arrow-up: #087308;
+  --arrow-down: #731408;
 }
 
 .darkMode {
@@ -18,6 +20,8 @@
   --darker-background-color: #223;
   --darkest-background-color: black;
   --button-color: #334;
+  --arrow-up: #42d442;
+  --arrow-down: #c55242;
 }
 
 /* MAIN CSS */
@@ -175,11 +179,11 @@ button:active {
 }
 
 .fa-arrow-up {
-  color: #087308;
+  color: var(--arrow-up);
 }
 
 .fa-arrow-down {
-  color: #731408;
+  color: var(--arrow-down);
 }
 
 #locationTab button {

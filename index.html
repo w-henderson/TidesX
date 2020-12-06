@@ -47,7 +47,9 @@
     <div class="tab" id="searchTab">
       <input id="searchInput" oninput="updateSearch();" placeholder="Location Name" autocomplete="off"
         onfocus="keyboardResize(true);" onblur="keyboardResize(false);">
-      <div id="searchResults">Type a few characters to search coastal locations.</div>
+      <div id="searchResults">
+        Type a few characters to search coastal locations, or <u onclick="updateSearchNear();">tap here</u> to find your closest location.
+      </div>
     </div>
 
     <div class="tab tabActive" id="homeTab">
