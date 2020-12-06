@@ -112,7 +112,7 @@ table {
 }
 
 button {
-  transition: 100ms;
+  transition: transform 100ms;
 }
 
 button:active {

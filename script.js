@@ -28,6 +28,7 @@ function setup() {
     document.getElementById("darkModeSetting").checked = settings[0].darkModeSetting;
     if (settings[0].darkModeSetting) {
       document.body.className = "darkMode";
+      document.querySelector("meta[name='theme-color']").setAttribute("content", "#334");
     }
   } else {
     window.localStorage.setItem("tidesXSettings", '[{"sortSetting":false,"cacheSetting":false,"darkModeSetting":false}]');
@@ -330,8 +331,10 @@ function changeSetting(setting) {
     settings[0].darkModeSetting = !settings[0].darkModeSetting;
     if (settings[0].darkModeSetting) {
       document.body.className = "darkMode";
+      document.querySelector("meta[name='theme-color']").setAttribute("content", "#334");
     } else {
       document.body.className = "lightMode";
+      document.querySelector("meta[name='theme-color']").setAttribute("content", "#33b4ff");
     }
   }
   console.log(settings);
