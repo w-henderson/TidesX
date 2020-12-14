@@ -31,7 +31,10 @@ body {
   padding: 0;
   font-family: Poppins;
   font-weight: 400;
+  overscroll-behavior: contain;
 }
+
+html { overscroll-behavior: contain; }
 
 .topBar {
   height: 25vh;
