@@ -71,14 +71,19 @@ function requestTideTimesAsync(location, day) {
         for (var i = 0; i < tides.length; i++) {
             var tideDate = new Date(Date.parse(tides[i].DateTime));
             var currentTime = new Date();
-            if (tideDate.getDate() != currentTime.getDate())
-                break;
-            var pastString = "";
-            if (currentTime.getTime() - tideDate.getTime() > 0 && day == "today") {
-                pastString = " style=\"opacity: 0.25;\"";
+            if (day == "today" && tideDate.getDate() == currentTime.getDate()) {
+                var pastString = "";
+                if (currentTime.getTime() - tideDate.getTime() > 0 && day == "today") {
+                    pastString = " style=\"opacity: 0.25;\"";
+                }
+                var tideDirection = tides[i].EventType == "HighWater" ? "High" : "Low";
+                outputHTML += "<a" + pastString + ">" + tideDirection + ": <span>" + tideDate.getHours().toString().padStart(2, "0") + ":" + tideDate.getMinutes().toString().padStart(2, "0") + " (" + tides[i].Height.toFixed(2) + "m)</span></a><br>";
             }
-            var tideDirection = tides[i].EventType == "HighWater" ? "High" : "Low";
-            outputHTML += "<a" + pastString + ">" + tideDirection + ": <span>" + tideDate.getHours().toString().padStart(2, "0") + ":" + tideDate.getMinutes().toString().padStart(2, "0") + " (" + tides[i].Height.toFixed(2) + "m)</span></a><br>";
+            else if (day == "tomorrow" && (tideDate.getDate() == currentTime.getDate() + 1 || (tideDate.getDate() == 1 && tideDate.getMonth() != currentTime.getMonth()))) {
+                var pastString = "";
+                var tideDirection = tides[i].EventType == "HighWater" ? "High" : "Low";
+                outputHTML += "<a" + pastString + ">" + tideDirection + ": <span>" + tideDate.getHours().toString().padStart(2, "0") + ":" + tideDate.getMinutes().toString().padStart(2, "0") + " (" + tides[i].Height.toFixed(2) + "m)</span></a><br>";
+            }
         }
         document.getElementById(day + "Tides").innerHTML = outputHTML;
         heightInterpolation(tides);
