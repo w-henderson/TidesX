@@ -11,6 +11,7 @@ window.addEventListener("load", () => {
   initialHeight = window.innerHeight; // Store the height of the window in a variable to later fix Android keyboard resizing bug
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('service_worker.js', { scope: "/TidesX/" }); // Set up PWA
   UserPreferences.initPrefs(); // Read the settings from local storage and apply them
+  alertForChangedFavourites();
   initFavouritesPage(); // Initialise and populate the favourites page
 });
 
@@ -205,5 +206,13 @@ function keyboardResize(keyboardOpen: boolean): void {
   } else {
     var metaViewport = document.querySelector("meta[name=viewport]")
     metaViewport.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
+  }
+}
+
+function alertForChangedFavourites(): void {
+  if (window.localStorage.getItem("tidesXMigrated") == undefined) {
+    window.localStorage.setItem("tidesXFavourites", "[]");
+    window.localStorage.setItem("tidesXMigrated", "true");
+    alert("TidesX has had a big update! We've completely redesigned our code, making it quicker and more reliable. However, we've also changed how we store favourites, meaning your favourites have been cleared. We're sorry for the inconvenience, but you'll just need to use the search feature to put them back again. We hope this update improves your TidesX experience!");
   }
 }
