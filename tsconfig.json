@@ -10,7 +10,9 @@
     },
     "files": [
         "scripts/types.ts",
-        "scripts/request.ts",
-        "scripts/stationData.ts"
+        "scripts/api.ts",
+        "scripts/stationData.ts",
+        "scripts/display.ts",
+        "scripts/userPrefs.ts"
     ]
 }

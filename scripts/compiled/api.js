@@ -13,3 +13,18 @@ var API;
     }
     API.getTides = getTides;
 })(API || (API = {}));
+var StationTools;
+(function (StationTools) {
+    // Get full name of a station from its ID
+    function stationFromId(id) {
+        for (var i = 0; i < stationsJson.length; i++) {
+            if (stationsJson[i].properties.Id == id)
+                return stationsJson[i];
+        }
+    }
+    StationTools.stationFromId = stationFromId;
+    function nameFromId(id) {
+        return stationFromId(id).properties.Name;
+    }
+    StationTools.nameFromId = nameFromId;
+})(StationTools || (StationTools = {}));

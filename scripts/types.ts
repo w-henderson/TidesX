@@ -22,3 +22,9 @@ interface Station {
         Footnote: string;
     }
 }
+
+interface UserPrefs {
+    sortSetting: boolean,
+    cacheSetting: boolean,
+    darkModeSetting: boolean
+}

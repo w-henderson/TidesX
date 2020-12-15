@@ -12,3 +12,16 @@ namespace API {
     });
   }
 }
+
+namespace StationTools {
+  // Get full name of a station from its ID
+  export function stationFromId(id: string): Station {
+    for (let i = 0; i < stationsJson.length; i++) {
+      if (stationsJson[i].properties.Id == id) return stationsJson[i];
+    }
+  }
+
+  export function nameFromId(id: string): string {
+    return stationFromId(id).properties.Name;
+  }
+}
