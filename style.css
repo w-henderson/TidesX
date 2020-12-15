@@ -130,6 +130,7 @@ button:active {
 
 .favourite {
   margin-bottom: 3vh;
+  text-transform: capitalize;
 }
 
 .favourite table {
@@ -264,6 +265,7 @@ button:active {
 #searchResults span {
   display: block;
   margin-bottom: 2vh;
+  text-transform: capitalize;
 }
 
 #searchResults u {
