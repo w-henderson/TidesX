@@ -1,7 +1,7 @@
 var API;
 (function (API) {
     var SUBSCRIPTION_KEY = "251a32929be04983aaae6ef03c249e85";
-    var CORS_PROXY = "http://cors-anywhere-mirror.herokuapp.com/";
+    var CORS_PROXY = "https://cors-anywhere-mirror.herokuapp.com/";
     var REQUEST_URL = "https://admiraltyapi.azure-api.net/uktidalapi/api/V1/Stations/{}/TidalEvents";
     // Returns a promise which resolves to an array TidalEvents for a specific station
     function getTides(stationId) {
