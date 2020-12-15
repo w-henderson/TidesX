@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "outDir": "scripts/compiled/",
+        "lib": [
+            "ES5",
+            "ES2015.Promise",
+            "ES2016.Array.Include",
+            "dom"
+        ],
+    },
+    "files": [
+        "scripts/types.ts",
+        "scripts/request.ts",
+        "scripts/stationData.ts"
+    ]
+}
