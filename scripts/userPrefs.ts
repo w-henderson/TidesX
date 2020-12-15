@@ -53,4 +53,17 @@ namespace UserPreferences {
       return JSON.parse(locationString);
     }
   }
+
+  export function clearFavourites(): void {
+    window.localStorage.setItem("tidesXFavourites", "[]");
+    alert("Favourites cleared.");
+    initFavouritesPage();
+  }
+
+  export function clearAll(): void {
+    window.localStorage.removeItem('tidesXFavourites');
+    window.localStorage.removeItem('tidesXSettings');
+    alert('All user data removed.');
+    window.location.reload();
+  }
 }

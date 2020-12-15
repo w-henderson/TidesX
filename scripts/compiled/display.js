@@ -4,6 +4,7 @@ var months = ["January", "February", "March", "April", "May", "June", "July", "A
 var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var currentLocation = "";
 var initialHeight;
+// Add event listener to set up everything when page loads
 window.addEventListener("load", function () {
     initialHeight = window.innerHeight; // Store the height of the window in a variable to later fix Android keyboard resizing bug
     if ('serviceWorker' in navigator)
@@ -11,6 +12,7 @@ window.addEventListener("load", function () {
     UserPreferences.initPrefs(); // Read the settings from local storage and apply them
     initFavouritesPage(); // Initialise and populate the favourites page
 });
+// Initialise the favourites page and make requests to populate it
 function initFavouritesPage() {
     // Get or create local storage object
     var favouriteLocations = UserPreferences.getFavourites();
@@ -27,10 +29,11 @@ function initFavouritesPage() {
     favouriteLocations.forEach(function (loc) {
         document.getElementById("homeTab").innerHTML += favouritesHTML
             .replace(/{shortLocationName}/g, loc)
-            .replace("{locationName}", StationTools.nameFromId(loc));
+            .replace("{locationName}", StationTools.nameFromId(loc).toLowerCase());
         requestFavouriteLocationAsync(loc); // get tide times to fill in placeholders
     });
 }
+// Make request to upade a favourite location
 function requestFavouriteLocationAsync(stationId) {
     var station = StationTools.stationFromId(stationId);
     API.getTides(stationId).then(function (tideTimes) {
@@ -38,13 +41,14 @@ function requestFavouriteLocationAsync(stationId) {
         var tide1Date = new Date(Date.parse(tideTimes[0].DateTime));
         var tide2Date = new Date(Date.parse(tideTimes[1].DateTime));
         document.getElementById("favourite-" + stationId).innerHTML = innerFavouritesHTML
-            .replace("{locationName}", "<i class='fas fa-arrow-" + (tideComingIn ? "up" : "down") + "'></i>" + station.properties.Name)
-            .replace("{next1}", tide1Date.getHours() + ":" + tide1Date.getMinutes())
-            .replace("{next2}", tide2Date.getHours() + ":" + tide2Date.getMinutes())
+            .replace("{locationName}", "<i class='fas fa-arrow-" + (tideComingIn ? "up" : "down") + "'></i> " + station.properties.Name.toLowerCase())
+            .replace("{next1}", tide1Date.getHours().toString().padStart(2, "0") + ":" + tide1Date.getMinutes().toString().padStart(2, "0"))
+            .replace("{next2}", tide2Date.getHours().toString().padStart(2, "0") + ":" + tide2Date.getMinutes().toString().padStart(2, "0"))
             .replace("{1}", tideComingIn ? "High" : "Low")
             .replace("{2}", tideComingIn ? "Low" : "High");
     });
 }
+// Switch tab
 function changeTab(tab) {
     // change classes to render tab change
     document.getElementById("searchTab").className = "tab";
@@ -70,9 +74,23 @@ function changeTab(tab) {
         }
         else {
             document.getElementById("titleBar").innerHTML = "TidesX";
-            if (!JSON.parse(window.localStorage.getItem("tidesXSettings"))[0].cacheSetting) {
+            if (!UserPreferences.settings.cacheSetting) {
                 initFavouritesPage();
             }
         }
+    }
+}
+function initLocationTab(location) {
+}
+// Prevent resize event from messing up page
+function keyboardResize(keyboardOpen) {
+    if (keyboardOpen) {
+        document.documentElement.style.setProperty("overflow", "auto");
+        var metaViewport = document.querySelector("meta[name=viewport]");
+        metaViewport.setAttribute("content", "height=" + initialHeight + ", width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
+    }
+    else {
+        var metaViewport = document.querySelector("meta[name=viewport]");
+        metaViewport.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
     }
 }

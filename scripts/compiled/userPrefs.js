@@ -59,4 +59,17 @@ var UserPreferences;
         }
     }
     UserPreferences.getFavourites = getFavourites;
+    function clearFavourites() {
+        window.localStorage.setItem("tidesXFavourites", "[]");
+        alert("Favourites cleared.");
+        initFavouritesPage();
+    }
+    UserPreferences.clearFavourites = clearFavourites;
+    function clearAll() {
+        window.localStorage.removeItem('tidesXFavourites');
+        window.localStorage.removeItem('tidesXSettings');
+        alert('All user data removed.');
+        window.location.reload();
+    }
+    UserPreferences.clearAll = clearAll;
 })(UserPreferences || (UserPreferences = {}));

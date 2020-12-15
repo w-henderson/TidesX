@@ -18,6 +18,7 @@
   <script src="scripts/compiled/stationData.js"></script>
   <script src="scripts/compiled/api.js"></script>
   <script src="scripts/compiled/userPrefs.js"></script>
+  <script src="scripts/compiled/search.js"></script>
   <script src="scripts/compiled/display.js"></script>
 
   <link rel="manifest" href="manifest.json">
@@ -63,7 +64,7 @@
           <td>Dark mode</td>
           <td>
             <label class="switch">
-              <input type="checkbox" id="darkModeSetting" onchange="changeSetting('darkmode');">
+              <input type="checkbox" id="darkModeSetting" onchange="UserPreferences.changeSetting('darkmode');">
               <span class="slider round"></span>
             </label>
           </td>
@@ -72,7 +73,7 @@
           <td>Sort favourites</td>
           <td>
             <label class="switch">
-              <input type="checkbox" id="sortSetting" onchange="changeSetting('sort');">
+              <input type="checkbox" id="sortSetting" onchange="UserPreferences.changeSetting('sort');">
               <span class="slider round"></span>
             </label>
           </td>
@@ -81,18 +82,14 @@
           <td>Cache favourites data</td>
           <td>
             <label class="switch">
-              <input type="checkbox" id="cacheSetting" onchange="changeSetting('cache');">
+              <input type="checkbox" id="cacheSetting" onchange="UserPreferences.changeSetting('cache');">
               <span class="slider round"></span>
             </label>
           </td>
         </tr>
       </table>
-      <button
-        onclick="window.localStorage.setItem('tidesXFavourites','[]');alert('Favourites cleared.');showFavouriteLocations();">Clear
-        favourites</button><br>
-      <button
-        onclick="window.localStorage.removeItem('tidesXFavourites');window.localStorage.removeItem('tidesXSettings');alert('All user data removed.');window.location.reload();">Clear
-        all user data<br>(including settings)</button><br>
+      <button onclick="UserPreferences.clearFavourites()">Clear favourites</button><br>
+      <button onclick="UserPreferences.clearAll();">Clear all user data<br>(including settings)</button><br>
       <button onclick="window.location.reload(true);">Force restart app</button>
 
       <div class="linksAndThanks">

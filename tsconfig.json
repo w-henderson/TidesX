@@ -5,6 +5,7 @@
             "ES5",
             "ES2015.Promise",
             "ES2016.Array.Include",
+            "ES2017",
             "dom"
         ],
     },
@@ -13,6 +14,7 @@
         "scripts/api.ts",
         "scripts/stationData.ts",
         "scripts/display.ts",
-        "scripts/userPrefs.ts"
+        "scripts/userPrefs.ts",
+        "scripts/search.ts"
     ]
 }
