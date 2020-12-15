@@ -17,7 +17,7 @@ function updateSearch(): void {
     });
     let resultHTML = "";
     locations.forEach((station: Station) => {
-      resultHTML += "<span onclick='loadLocationTab(\"" + station.properties.Id + "\");'>" + station.properties.Name.toLowerCase() + "</span>";
+      resultHTML += "<span onclick='initLocationTab(\"" + station.properties.Id + "\");'>" + station.properties.Name.toLowerCase() + "</span>";
     });
     document.getElementById("searchResults").innerHTML = resultHTML;
   }
@@ -26,7 +26,7 @@ function updateSearch(): void {
 // Update search results based on geolocation
 function updateSearchNear() {
   navigator.geolocation.getCurrentPosition(function (position) {
-    let closest;
+    let closest: Station;
     let distance = 2 ** 16;
 
     if (position.coords.latitude < 49 || position.coords.latitude > 61 || position.coords.longitude < -8 || position.coords.longitude > 4) {
@@ -42,7 +42,7 @@ function updateSearchNear() {
       }
     });
 
-    initLocationTab(closest);
+    initLocationTab(closest.properties.Id);
   }, function (err) {
     document.getElementById("searchResults").innerHTML = "Type a few characters to search coastal locations.<br><br>An error occured during geolocation; please search for your location instead.";
   });

@@ -20,7 +20,7 @@ function moonPhase(day, month, year) {
   var DI = f0;   // Moon's distance in earth radii
   var LA = f0;   // Moon's ecliptic latitude
   var LO = f0;   // Moon's ecliptic longitude
-  var Phase = parseInt(0);
+  var Phase = 0;
   var Zodiac = " ";
 
   // Related to month length and age calculations
@@ -143,6 +143,6 @@ function moonPhase(day, month, year) {
     return v;
   }
 
-  console.log(day,month,year);
+  console.log(day, month, year);
   return Phase;
 };

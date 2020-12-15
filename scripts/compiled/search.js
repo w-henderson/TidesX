@@ -21,7 +21,7 @@ function updateSearch() {
         });
         var resultHTML_1 = "";
         locations_1.forEach(function (station) {
-            resultHTML_1 += "<span onclick='loadLocationTab(\"" + station.properties.Id + "\");'>" + station.properties.Name.toLowerCase() + "</span>";
+            resultHTML_1 += "<span onclick='initLocationTab(\"" + station.properties.Id + "\");'>" + station.properties.Name.toLowerCase() + "</span>";
         });
         document.getElementById("searchResults").innerHTML = resultHTML_1;
     }
@@ -42,7 +42,7 @@ function updateSearchNear() {
                 distance = distanceThisSource;
             }
         });
-        initLocationTab(closest);
+        initLocationTab(closest.properties.Id);
     }, function (err) {
         document.getElementById("searchResults").innerHTML = "Type a few characters to search coastal locations.<br><br>An error occured during geolocation; please search for your location instead.";
     });

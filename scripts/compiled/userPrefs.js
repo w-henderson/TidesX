@@ -72,4 +72,19 @@ var UserPreferences;
         window.location.reload();
     }
     UserPreferences.clearAll = clearAll;
+    function updateFavourites() {
+        var currentLS = JSON.parse(window.localStorage.getItem("tidesXFavourites"));
+        if (currentLS.includes(currentLocation.properties.Id)) { // if location to change is in favourites, remove it
+            currentLS.splice(currentLS.indexOf(currentLocation.properties.Id), 1);
+            window.localStorage.setItem("tidesXFavourites", JSON.stringify(currentLS));
+            document.getElementById("favouritesButton").innerHTML = "Favourite";
+        }
+        else { // if location to change isn't in favourites, add it
+            currentLS.push(currentLocation.properties.Id);
+            window.localStorage.setItem("tidesXFavourites", JSON.stringify(currentLS));
+            document.getElementById("favouritesButton").innerHTML = "Unfavourite";
+        }
+        initFavouritesPage();
+    }
+    UserPreferences.updateFavourites = updateFavourites;
 })(UserPreferences || (UserPreferences = {}));

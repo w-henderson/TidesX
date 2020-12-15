@@ -15,6 +15,7 @@
         "scripts/stationData.ts",
         "scripts/display.ts",
         "scripts/userPrefs.ts",
-        "scripts/search.ts"
+        "scripts/search.ts",
+        "scripts/moonPhase.ts"
     ]
 }

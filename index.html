@@ -15,6 +15,7 @@
     gtag('config', 'UA-175787828-1');
   </script>
 
+  <script src="scripts/compiled/moonPhase.js"></script>
   <script src="scripts/compiled/stationData.js"></script>
   <script src="scripts/compiled/api.js"></script>
   <script src="scripts/compiled/userPrefs.js"></script>
@@ -110,8 +111,8 @@
           <img src="images/loading.gif">
         </div>
 
-        <button style="float:left;" id="favouritesButton" onclick="updateFavourites();">Add to favourites</button>
-        <button style="float:right;" onclick="toggleSubTab('extra');">More info</button>
+        <button style="float:left;" id="favouritesButton" onclick="UserPreferences.updateFavourites();">Add to favourites</button>
+        <button style="float:right;" onclick="initSubTab('extra');">More info</button>
       </div>
 
       <div class="subTab" id="extraLocationInfo">
@@ -126,7 +127,7 @@
           <img src="images/loading.gif" style="height:10vh;">
         </div>
 
-        <button style="float:right;" onclick="toggleSubTab('main');">Back</button>
+        <button style="float:right;" onclick="initSubTab('main');">Back</button>
       </div>
     </div>
   </div>
