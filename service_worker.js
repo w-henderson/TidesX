@@ -3,9 +3,9 @@ self.addEventListener('install', function (e) {
     caches.open('tidesx').then(function (cache) {
       console.log("Cache created");
       return cache.addAll([
-        '/',
-        '/index.html',
-        '/style.css'
+        '/TidesX/',
+        '/TidesX/index.html',
+        '/TidesX/style.css'
       ]);
     })
   );
