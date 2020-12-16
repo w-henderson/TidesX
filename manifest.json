@@ -12,6 +12,12 @@
       "src": "images/icon-small.png",
       "type": "image/png",
       "sizes": "192x192"
+    },
+    {
+      "src": "images/maskable-icon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
     }
   ],
   "start_url": "/TidesX/",
