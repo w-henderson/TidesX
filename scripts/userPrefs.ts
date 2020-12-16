@@ -1,7 +1,7 @@
 namespace UserPreferences {
   export var settings: UserPrefs = {
     "sortSetting": false,
-    "cacheSetting": false,
+    "cacheSetting": true,
     "darkModeSetting": false
   };
 
@@ -40,7 +40,7 @@ namespace UserPreferences {
         document.querySelector("meta[name='theme-color']").setAttribute("content", "#334");
       }
     } else {
-      window.localStorage.setItem("tidesXSettings", '{"sortSetting":false,"cacheSetting":false,"darkModeSetting":false}');
+      window.localStorage.setItem("tidesXSettings", '{"sortSetting":false,"cacheSetting":true,"darkModeSetting":false}');
     }
   }
 

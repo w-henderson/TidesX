@@ -2,7 +2,7 @@ var UserPreferences;
 (function (UserPreferences) {
     UserPreferences.settings = {
         "sortSetting": false,
-        "cacheSetting": false,
+        "cacheSetting": true,
         "darkModeSetting": false
     };
     // Function to toggle a given setting and then update accordingly
@@ -44,7 +44,7 @@ var UserPreferences;
             }
         }
         else {
-            window.localStorage.setItem("tidesXSettings", '{"sortSetting":false,"cacheSetting":false,"darkModeSetting":false}');
+            window.localStorage.setItem("tidesXSettings", '{"sortSetting":false,"cacheSetting":true,"darkModeSetting":false}');
         }
     }
     UserPreferences.initPrefs = initPrefs;
