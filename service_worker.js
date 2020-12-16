@@ -1,1 +1,22 @@
-self.addEventListener('fetch', function (event) { }); // this is what makes it a pwa
+self.addEventListener('install', function (e) {
+  e.waitUntil(
+    caches.open('tidesx').then(function (cache) {
+      console.log("Cache created");
+      return cache.addAll([
+        '/',
+        '/index.html',
+        '/style.css'
+      ]);
+    })
+  );
+});
+
+self.addEventListener('fetch', function (event) {
+  console.log(event.request.url);
+
+  event.respondWith(
+    caches.match(event.request).then(function (response) {
+      return response || fetch(event.request);
+    })
+  );
+});
