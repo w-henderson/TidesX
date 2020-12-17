@@ -38,9 +38,16 @@ function initFavouritesPage() {
 function requestFavouriteLocationAsync(stationId) {
     var station = StationTools.stationFromId(stationId);
     API.getTides(stationId).then(function (tideTimes) {
-        var tideComingIn = tideTimes[0].EventType == "HighWater";
-        var tide1Date = new Date(Date.parse(tideTimes[0].DateTime));
-        var tide2Date = new Date(Date.parse(tideTimes[1].DateTime));
+        var futureTideTimes = [];
+        var now = new Date().getTime();
+        tideTimes.forEach(function (tide) {
+            if (Date.parse(tide.DateTime) > now) {
+                futureTideTimes.push(tide);
+            }
+        });
+        var tideComingIn = futureTideTimes[0].EventType == "HighWater";
+        var tide1Date = new Date(Date.parse(futureTideTimes[0].DateTime));
+        var tide2Date = new Date(Date.parse(futureTideTimes[1].DateTime));
         document.getElementById("favourite-" + stationId).innerHTML = innerFavouritesHTML
             .replace("{locationName}", "<i class='fas fa-arrow-" + (tideComingIn ? "up" : "down") + "'></i> " + station.properties.Name.toLowerCase())
             .replace("{next1}", tide1Date.getHours().toString().padStart(2, "0") + ":" + tide1Date.getMinutes().toString().padStart(2, "0"))
@@ -201,7 +208,7 @@ function keyboardResize(keyboardOpen) {
     }
 }
 function alertForChangedFavourites() {
-    if (window.localStorage.getItem("tidesXMigrated") == undefined) {
+    if (window.localStorage.getItem("tidesXMigrated") == undefined && window.localStorage.getItem("tidesXFavourites") != undefined) {
         window.localStorage.setItem("tidesXFavourites", "[]");
         window.localStorage.setItem("tidesXMigrated", "true");
         alert("TidesX has had a big update! We've completely redesigned our code, making it quicker and more reliable. However, we've also changed how we store favourites, meaning your favourites have been cleared. We're sorry for the inconvenience, but you'll just need to use the search feature to put them back again. We hope this update improves your TidesX experience!");

@@ -42,9 +42,18 @@ function initFavouritesPage(): void {
 function requestFavouriteLocationAsync(stationId: string) {
   let station = StationTools.stationFromId(stationId);
   API.getTides(stationId).then((tideTimes: TidalEvent[]) => {
-    let tideComingIn = tideTimes[0].EventType == "HighWater";
-    let tide1Date = new Date(Date.parse(tideTimes[0].DateTime));
-    let tide2Date = new Date(Date.parse(tideTimes[1].DateTime));
+    let futureTideTimes = [];
+    let now = new Date().getTime();
+
+    tideTimes.forEach((tide: TidalEvent) => {
+      if (Date.parse(tide.DateTime) > now) {
+        futureTideTimes.push(tide);
+      }
+    });
+
+    let tideComingIn = futureTideTimes[0].EventType == "HighWater";
+    let tide1Date = new Date(Date.parse(futureTideTimes[0].DateTime));
+    let tide2Date = new Date(Date.parse(futureTideTimes[1].DateTime));
 
     document.getElementById("favourite-" + stationId).innerHTML = innerFavouritesHTML
       .replace("{locationName}", `<i class='fas fa-arrow-${tideComingIn ? "up" : "down"}'></i> ${station.properties.Name.toLowerCase()}`)
@@ -215,7 +224,7 @@ function keyboardResize(keyboardOpen: boolean): void {
 }
 
 function alertForChangedFavourites(): void {
-  if (window.localStorage.getItem("tidesXMigrated") == undefined) {
+  if (window.localStorage.getItem("tidesXMigrated") == undefined && window.localStorage.getItem("tidesXFavourites") != undefined) {
     window.localStorage.setItem("tidesXFavourites", "[]");
     window.localStorage.setItem("tidesXMigrated", "true");
     alert("TidesX has had a big update! We've completely redesigned our code, making it quicker and more reliable. However, we've also changed how we store favourites, meaning your favourites have been cleared. We're sorry for the inconvenience, but you'll just need to use the search feature to put them back again. We hope this update improves your TidesX experience!");
