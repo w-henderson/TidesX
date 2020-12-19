@@ -1,5 +1,3 @@
-var favouritesHTML = '<div class="favourite" id="favourite-{shortLocationName}" onclick="initLocationTab(\'{shortLocationName}\')"><span>{locationName}</span><table><tr class="times"><td><img src="images/loading.gif"></td><td><img src="images/loading.gif"></td></tr><tr class="names"><td>Next High</td><td>Next Low</td></tr></table></div>';
-var innerFavouritesHTML = '<span>{locationName}</span><table><tr class="times"><td>{next1}</td><td>{next2}</td></tr><tr class="names"><td>Next {1}</td><td>Next {2}</td></tr></table>';
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var currentLocation;
@@ -28,14 +26,13 @@ function initFavouritesPage() {
         favouriteLocations.sort();
     // add favourite placeholders to page
     favouriteLocations.forEach(function (loc) {
-        document.getElementById("homeTab").innerHTML += favouritesHTML
-            .replace(/{shortLocationName}/g, loc)
-            .replace("{locationName}", StationTools.nameFromId(loc).toLowerCase());
-        requestFavouriteLocationAsync(loc); // get tide times to fill in placeholders
+        var favourite = HTML.createFavourite(StationTools.stationFromId(loc));
+        document.querySelector("#homeTab").appendChild(favourite);
+        requestFavouriteLocationAsync(favourite, loc);
     });
 }
 // Make request to upade a favourite location
-function requestFavouriteLocationAsync(stationId) {
+function requestFavouriteLocationAsync(favourite, stationId) {
     var station = StationTools.stationFromId(stationId);
     API.getTides(stationId).then(function (tideTimes) {
         var futureTideTimes = [];
@@ -48,12 +45,14 @@ function requestFavouriteLocationAsync(stationId) {
         var tideComingIn = futureTideTimes[0].EventType == "HighWater";
         var tide1Date = new Date(Date.parse(futureTideTimes[0].DateTime));
         var tide2Date = new Date(Date.parse(futureTideTimes[1].DateTime));
-        document.getElementById("favourite-" + stationId).innerHTML = innerFavouritesHTML
-            .replace("{locationName}", "<i class='fas fa-arrow-" + (tideComingIn ? "up" : "down") + "'></i> " + station.properties.Name.toLowerCase())
-            .replace("{next1}", tide1Date.getHours().toString().padStart(2, "0") + ":" + tide1Date.getMinutes().toString().padStart(2, "0"))
-            .replace("{next2}", tide2Date.getHours().toString().padStart(2, "0") + ":" + tide2Date.getMinutes().toString().padStart(2, "0"))
-            .replace("{1}", tideComingIn ? "High" : "Low")
-            .replace("{2}", tideComingIn ? "Low" : "High");
+        HTML.updateFavourite(favourite, {
+            locationName: station.properties.Name.toLowerCase(),
+            tideDirection: tideComingIn ? "up" : "down",
+            next1: tide1Date.getHours().toString().padStart(2, "0") + ":" + tide1Date.getMinutes().toString().padStart(2, "0"),
+            next2: tide2Date.getHours().toString().padStart(2, "0") + ":" + tide2Date.getMinutes().toString().padStart(2, "0"),
+            tide1type: futureTideTimes[0].EventType === "HighWater" ? "High" : "Low",
+            tide2type: futureTideTimes[0].EventType === "HighWater" ? "Low" : "High"
+        });
     });
 }
 function initLocationTab(locationId) {
