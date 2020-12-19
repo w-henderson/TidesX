@@ -66,12 +66,21 @@ function requestFavouriteLocationAsync(favourite: HTMLElement, stationId: string
 function initLocationTab(locationId: string): void {
   // prepare page for location change
   currentLocation = StationTools.stationFromId(locationId);
-  document.getElementById("todayTides").innerHTML = '<img src="images/loading.gif">';
-  document.getElementById("tomorrowTides").innerHTML = '<img src="images/loading.gif">';
+
+  let loadingIcon = document.createElement("img");
+  loadingIcon.src = "images/loading.gif";
+
+  let todayTides = document.querySelector("#todayTides");
+  let tomorrowTides = document.querySelector("#tomorrowTides");
+  todayTides.innerHTML = "";
+  tomorrowTides.innerHTML = "";
+  todayTides.appendChild(loadingIcon);
+  tomorrowTides.appendChild(loadingIcon.cloneNode(true));
+
   changeTab("location");
 
   // change the shown name
-  document.getElementById("titleBar").innerHTML = currentLocation.properties.Name.toLowerCase();
+  document.querySelector("#titleBar").textContent = currentLocation.properties.Name.toLowerCase();
 
   // if in favourites, add option to remove, otherwise option to add
   document.getElementById("favouritesButton").innerHTML = JSON.parse(window.localStorage.getItem("tidesXFavourites")).includes(currentLocation.properties.Id)
@@ -85,24 +94,33 @@ function initLocationTab(locationId: string): void {
 
 function requestTideTimesAsync(location: Station, day: string) {
   API.getTides(location.properties.Id).then((tides: TidalEvent[]) => {
-    let outputHTML = "";
+    document.querySelector(`#${day}Tides`).innerHTML = "";
+
     for (let i = 0; i < tides.length; i++) {
       let tideDate = new Date(Date.parse(tides[i].DateTime));
       var currentTime = new Date();
       if (day == "today" && tideDate.getDate() == currentTime.getDate()) {
-        let pastString = "";
-        if (currentTime.getTime() - tideDate.getTime() > 0 && day == "today") {
-          pastString = " style=\"opacity: 0.25;\"";
-        }
-        let tideDirection = tides[i].EventType == "HighWater" ? "High" : "Low";
-        outputHTML += `<a${pastString}>${tideDirection}: <span>${tideDate.getHours().toString().padStart(2, "0")}:${tideDate.getMinutes().toString().padStart(2, "0")} (${tides[i].Height.toFixed(2)}m)</span></a><br>`;
+        document.querySelector("#todayTides").appendChild(
+          HTML.createTideTime({
+            past: currentTime.getTime() - tideDate.getTime() > 0,
+            direction: tides[i].EventType == "HighWater" ? "High" : "Low",
+            time: `${tideDate.getHours().toString().padStart(2, "0")}:${tideDate.getMinutes().toString().padStart(2, "0")}`,
+            height: tides[i].Height.toFixed(2)
+          })
+        );
+        document.querySelector("#todayTides").appendChild(document.createElement("br"));
       } else if (day == "tomorrow" && (tideDate.getDate() == currentTime.getDate() + 1 || (tideDate.getDate() == 1 && tideDate.getMonth() != currentTime.getMonth()))) {
-        let pastString = "";
-        let tideDirection = tides[i].EventType == "HighWater" ? "High" : "Low";
-        outputHTML += `<a${pastString}>${tideDirection}: <span>${tideDate.getHours().toString().padStart(2, "0")}:${tideDate.getMinutes().toString().padStart(2, "0")} (${tides[i].Height.toFixed(2)}m)</span></a><br>`;
+        document.querySelector("#tomorrowTides").appendChild(
+          HTML.createTideTime({
+            past: false,
+            direction: tides[i].EventType == "HighWater" ? "High" : "Low",
+            time: `${tideDate.getHours().toString().padStart(2, "0")}:${tideDate.getMinutes().toString().padStart(2, "0")}`,
+            height: tides[i].Height.toFixed(2)
+          })
+        );
+        document.querySelector("#tomorrowTides").appendChild(document.createElement("br"));
       }
     }
-    document.getElementById(day + "Tides").innerHTML = outputHTML;
     heightInterpolation(tides);
   });
 }
@@ -136,7 +154,7 @@ function heightInterpolation(tides: TidalEvent[]): void {
   var sineInterpolate = (Math.sin((linearInterpolate - 0.5) * 180 * Math.PI / 180) + 1) / 2; // 0 - 1 sine between heights (also rad conversion)
   var estimatedHeight = previousTideHeight + sineInterpolate * (nextTideHeight - previousTideHeight); // estimation of current height using sine interpolation
 
-  document.getElementById("currentHeight").innerHTML = (Math.round(estimatedHeight * 100) / 100).toString() + "m";
+  document.querySelector("#currentHeight").textContent = (Math.round(estimatedHeight * 100) / 100).toString() + "m";
 }
 
 function initSubTab(subtab: string) {

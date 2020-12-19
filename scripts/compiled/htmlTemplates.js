@@ -69,4 +69,16 @@ var HTML;
         element.lastChild.lastChild.lastChild.textContent = "Next " + info.tide2type; // change second time comment
     }
     HTML.updateFavourite = updateFavourite;
+    /* outputHTML += `<a${pastString}>${tideDirection}: <span>${tideDate.getHours().toString().padStart(2, "0")}:${tideDate.getMinutes().toString().padStart(2, "0")} (${tides[i].Height.toFixed(2)}m)</span></a><br>`; */
+    function createTideTime(info) {
+        var a = document.createElement("a");
+        var directionText = document.createTextNode(info.direction + ": ");
+        var timeSpan = document.createElement("span");
+        timeSpan.textContent = info.time + " (" + info.height + "m)";
+        a.style.opacity = info.past ? "25%" : "100%";
+        a.appendChild(directionText);
+        a.appendChild(timeSpan);
+        return a;
+    }
+    HTML.createTideTime = createTideTime;
 })(HTML || (HTML = {}));
