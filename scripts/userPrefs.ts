@@ -16,7 +16,7 @@ namespace UserPreferences {
       settings.darkModeSetting = !settings.darkModeSetting;
       if (settings.darkModeSetting) {
         document.body.className = "darkMode";
-        document.querySelector("meta[name='theme-color']").setAttribute("content", "#334");
+        document.querySelector("meta[name='theme-color']").setAttribute("content", "#006fb1");
       } else {
         document.body.className = "lightMode";
         document.querySelector("meta[name='theme-color']").setAttribute("content", "#33b4ff");
@@ -37,7 +37,7 @@ namespace UserPreferences {
       (<HTMLInputElement>document.getElementById("darkModeSetting")).checked = settings.darkModeSetting;
       if (settings.darkModeSetting) {
         document.body.className = "darkMode";
-        document.querySelector("meta[name='theme-color']").setAttribute("content", "#334");
+        document.querySelector("meta[name='theme-color']").setAttribute("content", "#006fb1");
       }
     } else {
       window.localStorage.setItem("tidesXSettings", '{"sortSetting":false,"cacheSetting":true,"darkModeSetting":false}');

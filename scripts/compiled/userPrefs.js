@@ -18,7 +18,7 @@ var UserPreferences;
             UserPreferences.settings.darkModeSetting = !UserPreferences.settings.darkModeSetting;
             if (UserPreferences.settings.darkModeSetting) {
                 document.body.className = "darkMode";
-                document.querySelector("meta[name='theme-color']").setAttribute("content", "#334");
+                document.querySelector("meta[name='theme-color']").setAttribute("content", "#006fb1");
             }
             else {
                 document.body.className = "lightMode";
@@ -40,7 +40,7 @@ var UserPreferences;
             document.getElementById("darkModeSetting").checked = UserPreferences.settings.darkModeSetting;
             if (UserPreferences.settings.darkModeSetting) {
                 document.body.className = "darkMode";
-                document.querySelector("meta[name='theme-color']").setAttribute("content", "#334");
+                document.querySelector("meta[name='theme-color']").setAttribute("content", "#006fb1");
             }
         }
         else {

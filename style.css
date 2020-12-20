@@ -8,6 +8,8 @@
   --lighter-background-color: #33b4ff;
   --darker-background-color: #007bc2;
   --darkest-background-color: #d6f0ff;
+  --gradient-top-color: #8aa9bb;
+  --block-color: #e3f4ff;
   --button-color: #f2f4ff;
   --arrow-up: #087308;
   --arrow-down: #731408;
@@ -16,10 +18,12 @@
 .darkMode {
   --standard-text-color: #f2f4ff;
   --inverse-text-color: #f2f4ff;
-  --lighter-background-color: #334;
-  --darker-background-color: #223;
-  --darkest-background-color: black;
-  --button-color: #334;
+  --lighter-background-color: #006fb1;
+  --darker-background-color: #034469;
+  --darkest-background-color: #101213;
+  --gradient-top-color: #040505;
+  --block-color: #00598d;
+  --button-color: #313638;
   --arrow-up: #42d442;
   --arrow-down: #c55242;
 }
@@ -95,7 +99,11 @@ html { overscroll-behavior: contain; }
 #main {
   height: 75vh;
   width: 100%;
-  background-color: var(--darkest-background-color);
+  background: linear-gradient(
+    to bottom,
+    var(--gradient-top-color) 0%,
+    var(--darkest-background-color) 5%
+  );
   color: var(--standard-text-color);
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
 }
@@ -104,7 +112,7 @@ html { overscroll-behavior: contain; }
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 3vh 5vh;
+  padding: 4vh;
   font-size: 3vh;
   overflow: auto;
   display: none;
@@ -131,6 +139,11 @@ button:active {
 .favourite {
   margin-bottom: 3vh;
   text-transform: capitalize;
+  background-color: var(--block-color);
+  box-sizing: border-box;
+  padding: 2vh;
+  border-radius: 2vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .favourite table {
@@ -332,6 +345,7 @@ input:checked + .slider:before {
 #settingsTab table {
   font-size: 3vh;
   border-spacing: 0;
+  margin-top: -1vh;
 }
 
 #settingsTab td {
