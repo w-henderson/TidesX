@@ -138,38 +138,23 @@ function heightInterpolation(tides) {
 }
 function initSubTab(subtab) {
     if (subtab == "extra") { // show extra info
-        document.getElementById("mainLocationInfo").className = "subTab";
-        document.getElementById("extraLocationInfo").className = "subTab subTabActive";
+        document.querySelector("#mainLocationInfo").className = "subTab";
+        document.querySelector("#extraLocationInfo").className = "subTab subTabActive";
         // add moon phase information
         var currentDate = new Date();
         var mPhase = moonPhase(currentDate.getDate(), currentDate.getMonth() + 1, currentDate.getFullYear());
-        document.getElementById("moonInfo").innerHTML = "<span>Moon Phase:</span><br><img src='images/moon/" + mPhase.toString() + ".svg'> " + moonPhases[mPhase];
+        HTML.updateMoonPhase(document.querySelector("#moonInfo"), mPhase);
         requestExtraTideTimesAsync(currentLocation);
     }
     else { // return to standard tab and remove extra info
         document.getElementById("mainLocationInfo").className = "subTab subTabActive";
         document.getElementById("extraLocationInfo").className = "subTab";
-        document.getElementById("extraDates").innerHTML = '<img src="images/loading.gif" style="height:10vh;">';
+        HTML.setLoading(document.querySelector("#extraDates"), true);
     }
 }
 function requestExtraTideTimesAsync(location) {
     API.getTides(location.properties.Id).then(function (tides) {
-        var currentWorkingDate;
-        var outputHTML = "";
-        tides.forEach(function (tide) {
-            var dateObj = new Date(Date.parse(tide.DateTime));
-            var dateStr = days[dateObj.getDay()] + " " + dateObj.getDate() + " " + months[dateObj.getMonth()];
-            if (dateStr != currentWorkingDate && currentLocation != undefined) {
-                outputHTML += "</div><span>" + dateStr + "</span><div class=\"detailedTides\">";
-            }
-            else if (dateStr != currentWorkingDate) {
-                outputHTML += "<span>" + dateStr + "</span><div class=\"detailedTides\">";
-            }
-            currentWorkingDate = dateStr;
-            var tideDirection = tide.EventType == "HighWater" ? "High" : "Low";
-            outputHTML += tideDirection + ": <span>" + dateObj.getHours().toString().padStart(2, "0") + ":" + dateObj.getMinutes().toString().padStart(2, "0") + " (" + tide.Height.toFixed(2) + "m)</span><br>";
-        });
-        document.getElementById("extraDates").innerHTML = outputHTML;
+        HTML.updateExtraInfo(document.querySelector("#extraDates"), tides);
     });
 }
 // Switch tab
@@ -186,11 +171,11 @@ function changeTab(tab) {
     // if not showing the location tab, reset it
     if (tab != "location") {
         currentLocation = undefined;
-        document.getElementById("currentHeight").innerHTML = "<img src='images/loading.gif'>";
+        HTML.setLoading(document.querySelector("#currentHeight"));
         document.getElementById(tab + "TabButton").className += " selectedTab";
         document.getElementById("mainLocationInfo").className = "subTab subTabActive";
         document.getElementById("extraLocationInfo").className = "subTab";
-        document.getElementById("extraDates").innerHTML = '<img src="images/loading.gif" style="height:10vh;">';
+        HTML.setLoading(document.querySelector("#extraDates"), true);
         document.getElementById("sunrise").innerHTML = "";
         document.getElementById("sunset").innerHTML = "";
         if (tab != "home") {

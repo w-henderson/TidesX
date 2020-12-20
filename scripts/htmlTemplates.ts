@@ -1,31 +1,3 @@
-/* const favouritesHTML = '
-<div class="favourite" id="favourite-{shortLocationName}" onclick="initLocationTab(\'{shortLocationName}\')">
-  <span>{locationName}</span>
-  <table>
-    <tr class="times">
-      <td><img src="images/loading.gif"></td>
-      <td><img src="images/loading.gif"></td>
-    </tr>
-    <tr class="names">
-      <td>Next High</td>
-      <td>Next Low</td>
-    </tr>
-  </table>
-</div>';
-
-const innerFavouritesHTML = '
-<span>{locationName}</span>
-<table>
-  <tr class="times">
-    <td>{next1}</td>
-    <td>{next2}</td>
-  </tr>
-  <tr class="names">
-    <td>Next {1}</td>
-    <td>Next {2}</td>
-  </tr>
-</table>'; */
-
 namespace HTML {
   export function createFavourite(location: Station): HTMLElement {
     let div = document.createElement("div");
@@ -84,8 +56,6 @@ namespace HTML {
     element.lastChild.lastChild.lastChild.textContent = "Next " + info.tide2type; // change second time comment
   }
 
-  /* outputHTML += `<a${pastString}>${tideDirection}: <span>${tideDate.getHours().toString().padStart(2, "0")}:${tideDate.getMinutes().toString().padStart(2, "0")} (${tides[i].Height.toFixed(2)}m)</span></a><br>`; */
-
   export function createTideTime(info: {
     past: boolean,
     direction: string,
@@ -103,5 +73,74 @@ namespace HTML {
     a.appendChild(timeSpan);
 
     return a;
+  }
+
+  export function updateMoonPhase(element: HTMLElement, moonPhase: number): void {
+    element.innerHTML = "";
+
+    let titleSpan = document.createElement("span");
+    let br = document.createElement("br");
+    let image = document.createElement("img");
+    let text = document.createTextNode(" " + moonPhases[moonPhase]);
+    image.src = `images/moon/${moonPhase}.svg`;
+    titleSpan.textContent = "Moon Phase:";
+
+    element.appendChild(titleSpan);
+    element.appendChild(br);
+    element.appendChild(image);
+    element.appendChild(text);
+  }
+
+  export function setLoading(element: HTMLElement, height: boolean = false) {
+    let loadingImage = document.createElement("img");
+    loadingImage.src = "images/loading.gif";
+    if (height) loadingImage.style.height = "10vh";
+
+    element.innerHTML = "";
+    element.appendChild(loadingImage);
+  }
+
+  export function updateExtraInfo(element: HTMLElement, tides: TidalEvent[]): void {
+    /*let currentWorkingDate: string;
+    let outputHTML = "";
+    tides.forEach(tide => {
+      let dateObj = new Date(Date.parse(tide.DateTime));
+      let dateStr = `${days[dateObj.getDay()]} ${dateObj.getDate()} ${months[dateObj.getMonth()]}`; // e.g. "Sunday 20 December"
+      if (dateStr != currentWorkingDate && currentLocation != undefined) {
+        outputHTML += `</div><span>${dateStr}</span><div class="detailedTides">`;
+      } else if (dateStr != currentWorkingDate) {
+        outputHTML += `<span>${dateStr}</span><div class="detailedTides">`;
+      }
+      currentWorkingDate = dateStr;
+      let tideDirection = tide.EventType == "HighWater" ? "High" : "Low";
+      outputHTML += `${tideDirection}: <span>${dateObj.getHours().toString().padStart(2, "0")}:${dateObj.getMinutes().toString().padStart(2, "0")} (${tide.Height.toFixed(2)}m)</span><br>`;
+    });
+    document.querySelector("#extraDates").innerHTML = outputHTML;*/
+
+    element.innerHTML = "";
+
+    let div = document.createElement("div");
+    div.className = "detailedTides";
+
+    tides.forEach((tide: TidalEvent) => {
+      let dateObj = new Date(Date.parse(tide.DateTime));
+      let dateStr = `${days[dateObj.getDay()]} ${dateObj.getDate()} ${months[dateObj.getMonth()]}`; // e.g. "Sunday 20 December"
+
+      if (element.children.length == 0 || element.children[element.children.length - 2].textContent !== dateStr) {
+        let titleSpan = document.createElement("span");
+        titleSpan.textContent = dateStr;
+        element.appendChild(titleSpan);
+        let detailedTides = div.cloneNode();
+        element.appendChild(detailedTides);
+      }
+
+      let tideType = tide.EventType === "HighWater" ? "High" : "Low";
+      let infoSpan = document.createElement("span");
+      infoSpan.textContent = `${dateObj.getHours().toString().padStart(2, "0")}:${dateObj.getMinutes().toString().padStart(2, "0")} (${tide.Height.toFixed(2)}m)`;
+
+      element.lastChild.appendChild(document.createTextNode(tideType + ": "));
+      element.lastChild.appendChild(infoSpan);
+      element.lastChild.appendChild(document.createElement("br"));
+    });
   }
 }
