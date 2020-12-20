@@ -160,12 +160,12 @@ button:active {
 .favourite span {
   font-size: 4vh;
   display: block;
-  margin-bottom: 2vh;
+  margin-bottom: 1.5vh;
   font-weight: 500;
 }
 
 .favourite tr.times {
-  font-size: 8vh;
+  font-size: 7vh;
   height: 4vh;
   line-height: 6vh;
   font-weight: 200;
