@@ -6,13 +6,10 @@ A quick and easy way to check the tide times.
 [<img src="images/trailer_thumbnail.png" width=600>](https://www.youtube.com/watch?v=vz3CJ-kDiPc)
 
 ## What is TidesX?
-TidesX is an app to check the tide times. It has a clean and beautiful interface and intuitive design, so the information you need is never more than a tap away.
-
-## Where does TidesX get its data from?
-TidesX gets its data directly from the UK Hydrographic Office through their Admiralty API. It's limited to 20k requests per month, but I'd be surprised if we ever meet that limit.
+TidesX is an intuitive and easy-to-use web app for checking the tide times anywhere in the UK. It features predictions and current information for over 600 coastal locations, taken straight from the UK Hydrographic Office.
 
 ## Sounds good, where can I get it?
-TidesX is available on GitHub Pages, where you need to install it as a web app. This means opening it in your browser [here](https://w-henderson.github.io/TidesX), then adding it to your home screen.
+**TidesX will be available on the Google Play store from late December**, but for now, TidesX is available on GitHub Pages, where you need to install it as a web app. This means opening it in your browser [here](https://w-henderson.github.io/TidesX), then adding it to your home screen.
 
 # Screenshots
 | | | |

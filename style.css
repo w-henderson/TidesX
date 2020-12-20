@@ -9,6 +9,7 @@
   --darker-background-color: #007bc2;
   --darkest-background-color: #d6f0ff;
   --gradient-top-color: #8aa9bb;
+  --search-top-color: #8aa9bb;
   --block-color: #e3f4ff;
   --button-color: #f2f4ff;
   --arrow-up: #087308;
@@ -21,6 +22,7 @@
   --lighter-background-color: #006fb1;
   --darker-background-color: #034469;
   --darkest-background-color: #101213;
+  --search-top-color: #1f2324;
   --gradient-top-color: #040505;
   --block-color: #00598d;
   --button-color: #313638;
@@ -93,7 +95,7 @@ html { overscroll-behavior: contain; }
   text-overflow: ellipsis;
   white-space: nowrap;
   box-sizing: border-box;
-  padding: 1vh;
+  padding: 0.5vh 1vh 1vh;
 }
 
 #main {
@@ -260,6 +262,12 @@ button:active {
   height: 10vh;
   font-family: Poppins;
   font-size: 5vh;
+  color: var(--standard-text-color);
+  background: linear-gradient(
+    to bottom,
+    var(--search-top-color) 0%,
+    var(--button-color) 25%
+  );
   box-sizing: border-box;
   padding: 3vh;
   border: none;
@@ -374,7 +382,13 @@ input:checked + .slider:before {
   bottom: 0;
   left: 0;
   width: 100vw;
-  height: 20vh;
+  height: 21vh;
   box-sizing: border-box;
   padding: 3vh;
+  font-size: 2.5vh;
+}
+
+a:link, a:visited, a:hover, a:active {
+  color: inherit;
+  text-decoration: underline;
 }
