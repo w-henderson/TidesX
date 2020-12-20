@@ -1,11 +1,10 @@
-var favouritesHTML = '<div class="favourite" id="favourite-{shortLocationName}" onclick="initLocationTab(\'{shortLocationName}\')"><span>{locationName}</span><table><tr class="times"><td><img src="images/loading.gif"></td><td><img src="images/loading.gif"></td></tr><tr class="names"><td>Next High</td><td>Next Low</td></tr></table></div>';
-var innerFavouritesHTML = '<span>{locationName}</span><table><tr class="times"><td>{next1}</td><td>{next2}</td></tr><tr class="names"><td>Next {1}</td><td>Next {2}</td></tr></table>';
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var currentLocation;
 var initialHeight;
 // Add event listener to set up everything when page loads
 window.addEventListener("load", function () {
+    HTMLRefs.updateRefs(); // Get references to used Nodes
     initialHeight = window.innerHeight; // Store the height of the window in a variable to later fix Android keyboard resizing bug
     if ('serviceWorker' in navigator)
         navigator.serviceWorker.register('service_worker.js', { scope: "/TidesX/" }); // Set up PWA
@@ -18,24 +17,22 @@ function initFavouritesPage() {
     // Get or create local storage object
     var favouriteLocations = UserPreferences.getFavourites();
     // If no favourites, alert user
-    var homeTab = document.getElementById("homeTab");
     if (favouriteLocations.length == 0)
-        homeTab.innerHTML = "Your favourite locations will appear here once you've chosen some.";
+        HTMLRefs.tabs.home.innerHTML = "Your favourite locations will appear here once you've chosen some.";
     else
-        homeTab.innerHTML = "";
+        HTMLRefs.tabs.home.innerHTML = "";
     // if sort is on in settings, sort locations alphabetically
     if (UserPreferences.settings.sortSetting)
         favouriteLocations.sort();
     // add favourite placeholders to page
     favouriteLocations.forEach(function (loc) {
-        document.getElementById("homeTab").innerHTML += favouritesHTML
-            .replace(/{shortLocationName}/g, loc)
-            .replace("{locationName}", StationTools.nameFromId(loc).toLowerCase());
-        requestFavouriteLocationAsync(loc); // get tide times to fill in placeholders
+        var favourite = HTML.createFavourite(StationTools.stationFromId(loc));
+        HTMLRefs.tabs.home.appendChild(favourite);
+        requestFavouriteLocationAsync(favourite, loc);
     });
 }
 // Make request to upade a favourite location
-function requestFavouriteLocationAsync(stationId) {
+function requestFavouriteLocationAsync(favourite, stationId) {
     var station = StationTools.stationFromId(stationId);
     API.getTides(stationId).then(function (tideTimes) {
         var futureTideTimes = [];
@@ -48,24 +45,26 @@ function requestFavouriteLocationAsync(stationId) {
         var tideComingIn = futureTideTimes[0].EventType == "HighWater";
         var tide1Date = new Date(Date.parse(futureTideTimes[0].DateTime));
         var tide2Date = new Date(Date.parse(futureTideTimes[1].DateTime));
-        document.getElementById("favourite-" + stationId).innerHTML = innerFavouritesHTML
-            .replace("{locationName}", "<i class='fas fa-arrow-" + (tideComingIn ? "up" : "down") + "'></i> " + station.properties.Name.toLowerCase())
-            .replace("{next1}", tide1Date.getHours().toString().padStart(2, "0") + ":" + tide1Date.getMinutes().toString().padStart(2, "0"))
-            .replace("{next2}", tide2Date.getHours().toString().padStart(2, "0") + ":" + tide2Date.getMinutes().toString().padStart(2, "0"))
-            .replace("{1}", tideComingIn ? "High" : "Low")
-            .replace("{2}", tideComingIn ? "Low" : "High");
+        HTML.updateFavourite(favourite, {
+            locationName: station.properties.Name.toLowerCase(),
+            tideDirection: tideComingIn ? "up" : "down",
+            next1: tide1Date.getHours().toString().padStart(2, "0") + ":" + tide1Date.getMinutes().toString().padStart(2, "0"),
+            next2: tide2Date.getHours().toString().padStart(2, "0") + ":" + tide2Date.getMinutes().toString().padStart(2, "0"),
+            tide1type: futureTideTimes[0].EventType === "HighWater" ? "High" : "Low",
+            tide2type: futureTideTimes[0].EventType === "HighWater" ? "Low" : "High"
+        });
     });
 }
 function initLocationTab(locationId) {
     // prepare page for location change
     currentLocation = StationTools.stationFromId(locationId);
-    document.getElementById("todayTides").innerHTML = '<img src="images/loading.gif">';
-    document.getElementById("tomorrowTides").innerHTML = '<img src="images/loading.gif">';
+    HTML.setLoading(HTMLRefs.refs.todayTides);
+    HTML.setLoading(HTMLRefs.refs.tomorrowTides);
     changeTab("location");
     // change the shown name
-    document.getElementById("titleBar").innerHTML = currentLocation.properties.Name.toLowerCase();
+    HTMLRefs.refs.titleBar.textContent = currentLocation.properties.Name.toLowerCase();
     // if in favourites, add option to remove, otherwise option to add
-    document.getElementById("favouritesButton").innerHTML = JSON.parse(window.localStorage.getItem("tidesXFavourites")).includes(currentLocation.properties.Id)
+    HTMLRefs.refs.favouritesButton.innerHTML = JSON.parse(window.localStorage.getItem("tidesXFavourites")).includes(currentLocation.properties.Id)
         ? "Unfavourite"
         : "Favourite";
     // get and then render tide times for today and tomorrow
@@ -74,25 +73,29 @@ function initLocationTab(locationId) {
 }
 function requestTideTimesAsync(location, day) {
     API.getTides(location.properties.Id).then(function (tides) {
-        var outputHTML = "";
+        document.querySelector("#" + day + "Tides").innerHTML = "";
         for (var i = 0; i < tides.length; i++) {
             var tideDate = new Date(Date.parse(tides[i].DateTime));
             var currentTime = new Date();
             if (day == "today" && tideDate.getDate() == currentTime.getDate()) {
-                var pastString = "";
-                if (currentTime.getTime() - tideDate.getTime() > 0 && day == "today") {
-                    pastString = " style=\"opacity: 0.25;\"";
-                }
-                var tideDirection = tides[i].EventType == "HighWater" ? "High" : "Low";
-                outputHTML += "<a" + pastString + ">" + tideDirection + ": <span>" + tideDate.getHours().toString().padStart(2, "0") + ":" + tideDate.getMinutes().toString().padStart(2, "0") + " (" + tides[i].Height.toFixed(2) + "m)</span></a><br>";
+                HTMLRefs.refs.todayTides.appendChild(HTML.createTideTime({
+                    past: currentTime.getTime() - tideDate.getTime() > 0,
+                    direction: tides[i].EventType == "HighWater" ? "High" : "Low",
+                    time: tideDate.getHours().toString().padStart(2, "0") + ":" + tideDate.getMinutes().toString().padStart(2, "0"),
+                    height: tides[i].Height.toFixed(2)
+                }));
+                HTMLRefs.refs.todayTides.appendChild(document.createElement("br"));
             }
             else if (day == "tomorrow" && (tideDate.getDate() == currentTime.getDate() + 1 || (tideDate.getDate() == 1 && tideDate.getMonth() != currentTime.getMonth()))) {
-                var pastString = "";
-                var tideDirection = tides[i].EventType == "HighWater" ? "High" : "Low";
-                outputHTML += "<a" + pastString + ">" + tideDirection + ": <span>" + tideDate.getHours().toString().padStart(2, "0") + ":" + tideDate.getMinutes().toString().padStart(2, "0") + " (" + tides[i].Height.toFixed(2) + "m)</span></a><br>";
+                HTMLRefs.refs.tomorrowTides.appendChild(HTML.createTideTime({
+                    past: false,
+                    direction: tides[i].EventType == "HighWater" ? "High" : "Low",
+                    time: tideDate.getHours().toString().padStart(2, "0") + ":" + tideDate.getMinutes().toString().padStart(2, "0"),
+                    height: tides[i].Height.toFixed(2)
+                }));
+                HTMLRefs.refs.tomorrowTides.appendChild(document.createElement("br"));
             }
         }
-        document.getElementById(day + "Tides").innerHTML = outputHTML;
         heightInterpolation(tides);
     });
 }
@@ -125,70 +128,55 @@ function heightInterpolation(tides) {
     var linearInterpolate = (timeNow.getTime() - previousTideTime) / (nextTideTime - previousTideTime); // 0 - 1 linear between times
     var sineInterpolate = (Math.sin((linearInterpolate - 0.5) * 180 * Math.PI / 180) + 1) / 2; // 0 - 1 sine between heights (also rad conversion)
     var estimatedHeight = previousTideHeight + sineInterpolate * (nextTideHeight - previousTideHeight); // estimation of current height using sine interpolation
-    document.getElementById("currentHeight").innerHTML = (Math.round(estimatedHeight * 100) / 100).toString() + "m";
+    HTMLRefs.refs.currentHeight.textContent = (Math.round(estimatedHeight * 100) / 100).toString() + "m";
 }
 function initSubTab(subtab) {
     if (subtab == "extra") { // show extra info
-        document.getElementById("mainLocationInfo").className = "subTab";
-        document.getElementById("extraLocationInfo").className = "subTab subTabActive";
+        HTMLRefs.refs.mainLocationInfo.className = "subTab";
+        HTMLRefs.refs.extraLocationInfo.className = "subTab subTabActive";
         // add moon phase information
         var currentDate = new Date();
         var mPhase = moonPhase(currentDate.getDate(), currentDate.getMonth() + 1, currentDate.getFullYear());
-        document.getElementById("moonInfo").innerHTML = "<span>Moon Phase:</span><br><img src='images/moon/" + mPhase.toString() + ".svg'> " + moonPhases[mPhase];
+        HTML.updateMoonPhase(HTMLRefs.refs.moonInfo, mPhase);
         requestExtraTideTimesAsync(currentLocation);
     }
     else { // return to standard tab and remove extra info
-        document.getElementById("mainLocationInfo").className = "subTab subTabActive";
-        document.getElementById("extraLocationInfo").className = "subTab";
-        document.getElementById("extraDates").innerHTML = '<img src="images/loading.gif" style="height:10vh;">';
+        HTMLRefs.refs.mainLocationInfo.className = "subTab subTabActive";
+        HTMLRefs.refs.extraLocationInfo.className = "subTab";
+        HTML.setLoading(HTMLRefs.refs.extraDates, true);
     }
 }
 function requestExtraTideTimesAsync(location) {
     API.getTides(location.properties.Id).then(function (tides) {
-        var currentWorkingDate;
-        var outputHTML = "";
-        tides.forEach(function (tide) {
-            var dateObj = new Date(Date.parse(tide.DateTime));
-            var dateStr = days[dateObj.getDay()] + " " + dateObj.getDate() + " " + months[dateObj.getMonth()];
-            if (dateStr != currentWorkingDate && currentLocation != undefined) {
-                outputHTML += "</div><span>" + dateStr + "</span><div class=\"detailedTides\">";
-            }
-            else if (dateStr != currentWorkingDate) {
-                outputHTML += "<span>" + dateStr + "</span><div class=\"detailedTides\">";
-            }
-            currentWorkingDate = dateStr;
-            var tideDirection = tide.EventType == "HighWater" ? "High" : "Low";
-            outputHTML += tideDirection + ": <span>" + dateObj.getHours().toString().padStart(2, "0") + ":" + dateObj.getMinutes().toString().padStart(2, "0") + " (" + tide.Height.toFixed(2) + "m)</span><br>";
-        });
-        document.getElementById("extraDates").innerHTML = outputHTML;
+        HTML.updateExtraInfo(HTMLRefs.refs.extraDates, tides);
     });
 }
 // Switch tab
 function changeTab(tab) {
     // change classes to render tab change
-    document.getElementById("searchTab").className = "tab";
-    document.getElementById("searchTabButton").className = "fa fa-search";
-    document.getElementById("homeTab").className = "tab";
-    document.getElementById("homeTabButton").className = "";
-    document.getElementById("settingsTab").className = "tab";
-    document.getElementById("settingsTabButton").className = "fa fa-cog";
-    document.getElementById("locationTab").className = "tab";
+    HTMLRefs.tabs.search.className = "tab";
+    HTMLRefs.tabs.settings.className = "tab";
+    HTMLRefs.tabs.home.className = "tab";
+    HTMLRefs.tabs.location.className = "tab";
+    HTMLRefs.tabs.buttons.search.className = "fa fa-search";
+    HTMLRefs.tabs.buttons.settings.className = "fa fa-cog";
+    HTMLRefs.tabs.buttons.home.className = "";
     document.getElementById(tab + "Tab").className += " tabActive";
     // if not showing the location tab, reset it
     if (tab != "location") {
         currentLocation = undefined;
-        document.getElementById("currentHeight").innerHTML = "<img src='images/loading.gif'>";
+        HTML.setLoading(HTMLRefs.refs.currentHeight);
         document.getElementById(tab + "TabButton").className += " selectedTab";
-        document.getElementById("mainLocationInfo").className = "subTab subTabActive";
-        document.getElementById("extraLocationInfo").className = "subTab";
-        document.getElementById("extraDates").innerHTML = '<img src="images/loading.gif" style="height:10vh;">';
-        document.getElementById("sunrise").innerHTML = "";
-        document.getElementById("sunset").innerHTML = "";
+        HTMLRefs.refs.mainLocationInfo.className = "subTab subTabActive";
+        HTMLRefs.refs.extraLocationInfo.className = "subTab";
+        HTML.setLoading(HTMLRefs.refs.extraDates, true);
+        HTMLRefs.refs.sunrise.innerHTML = "";
+        HTMLRefs.refs.sunset.innerHTML = "";
         if (tab != "home") {
-            document.getElementById("titleBar").innerHTML = tab;
+            HTMLRefs.refs.titleBar.innerHTML = tab;
         }
         else {
-            document.getElementById("titleBar").innerHTML = "TidesX";
+            HTMLRefs.refs.titleBar.innerHTML = "TidesX";
             if (!UserPreferences.settings.cacheSetting) {
                 initFavouritesPage();
             }

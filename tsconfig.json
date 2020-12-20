@@ -11,11 +11,13 @@
     },
     "files": [
         "scripts/types.ts",
+        "scripts/htmlReferences.ts",
         "scripts/api.ts",
         "scripts/stationData.ts",
         "scripts/display.ts",
         "scripts/userPrefs.ts",
         "scripts/search.ts",
-        "scripts/moonPhase.ts"
+        "scripts/moonPhase.ts",
+        "scripts/htmlTemplates.ts"
     ]
 }
