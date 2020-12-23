@@ -14,6 +14,7 @@ namespace HTMLRefs {
     refs.extraDates = document.querySelector("#extraDates");
     refs.sunrise = document.querySelector("#sunrise");
     refs.sunset = document.querySelector("#sunset");
+    refs.continuousMessage = document.querySelector("#continuousMessage");
 
     tabs.home = document.querySelector("#homeTab");
     tabs.search = document.querySelector("#searchTab");

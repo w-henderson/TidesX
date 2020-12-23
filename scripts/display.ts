@@ -59,7 +59,7 @@ function requestFavouriteLocationAsync(favourite: HTMLElement, stationId: string
       next1: `${tide1Date.getHours().toString().padStart(2, "0")}:${tide1Date.getMinutes().toString().padStart(2, "0")}`,
       next2: `${tide2Date.getHours().toString().padStart(2, "0")}:${tide2Date.getMinutes().toString().padStart(2, "0")}`,
       tide1type: futureTideTimes[0].EventType === "HighWater" ? "High" : "Low",
-      tide2type: futureTideTimes[0].EventType === "HighWater" ? "Low" : "High",
+      tide2type: futureTideTimes[1].EventType === "HighWater" ? "High" : "Low",
     });
   })
 }
@@ -103,6 +103,7 @@ function requestTideTimesAsync(location: Station, day: string) {
           })
         );
         HTMLRefs.refs.todayTides.appendChild(document.createElement("br"));
+        heightInterpolation(tides);
       } else if (day == "tomorrow" && (tideDate.getDate() == currentTime.getDate() + 1 || (tideDate.getDate() == 1 && tideDate.getMonth() != currentTime.getMonth()))) {
         HTMLRefs.refs.tomorrowTides.appendChild(
           HTML.createTideTime({
@@ -115,7 +116,6 @@ function requestTideTimesAsync(location: Station, day: string) {
         HTMLRefs.refs.tomorrowTides.appendChild(document.createElement("br"));
       }
     }
-    heightInterpolation(tides);
   });
 }
 
@@ -148,7 +148,15 @@ function heightInterpolation(tides: TidalEvent[]): void {
   var sineInterpolate = (Math.sin((linearInterpolate - 0.5) * 180 * Math.PI / 180) + 1) / 2; // 0 - 1 sine between heights (also rad conversion)
   var estimatedHeight = previousTideHeight + sineInterpolate * (nextTideHeight - previousTideHeight); // estimation of current height using sine interpolation
 
-  HTMLRefs.refs.currentHeight.textContent = (Math.round(estimatedHeight * 100) / 100).toString() + "m";
+  if (estimatedHeight.toString() !== "NaN") {
+    HTMLRefs.refs.currentHeight.textContent = "(now " + (Math.round(estimatedHeight * 100) / 100).toString() + "m)";
+    HTMLRefs.refs.continuousMessage.textContent = "";
+    HTMLRefs.refs.continuousMessage.style.margin = "0 0 0";
+  } else {
+    HTMLRefs.refs.currentHeight.textContent = "";
+    HTMLRefs.refs.continuousMessage.textContent = "Continuous data is unavailable for this location, most commonly due to it being on an estuary.";
+    HTMLRefs.refs.continuousMessage.style.margin = "0 0 2vh";
+  };
 }
 
 function initSubTab(subtab: string) {
@@ -193,6 +201,8 @@ function changeTab(tab: string): void {
   if (tab != "location") {
     currentLocation = undefined;
     HTML.setLoading(HTMLRefs.refs.currentHeight);
+    HTMLRefs.refs.continuousMessage.textContent = "";
+    HTMLRefs.refs.continuousMessage.style.margin = "0 0 0";
     document.getElementById(tab + "TabButton").className += " selectedTab";
     HTMLRefs.refs.mainLocationInfo.className = "subTab subTabActive";
     HTMLRefs.refs.extraLocationInfo.className = "subTab";

@@ -14,6 +14,7 @@ var HTMLRefs;
         HTMLRefs.refs.extraDates = document.querySelector("#extraDates");
         HTMLRefs.refs.sunrise = document.querySelector("#sunrise");
         HTMLRefs.refs.sunset = document.querySelector("#sunset");
+        HTMLRefs.refs.continuousMessage = document.querySelector("#continuousMessage");
         HTMLRefs.tabs.home = document.querySelector("#homeTab");
         HTMLRefs.tabs.search = document.querySelector("#searchTab");
         HTMLRefs.tabs.settings = document.querySelector("#settingsTab");

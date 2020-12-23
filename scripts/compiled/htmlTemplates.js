@@ -78,26 +78,14 @@ var HTML;
     }
     HTML.setLoading = setLoading;
     function updateExtraInfo(element, tides) {
-        /*let currentWorkingDate: string;
-        let outputHTML = "";
-        tides.forEach(tide => {
-          let dateObj = new Date(Date.parse(tide.DateTime));
-          let dateStr = `${days[dateObj.getDay()]} ${dateObj.getDate()} ${months[dateObj.getMonth()]}`; // e.g. "Sunday 20 December"
-          if (dateStr != currentWorkingDate && currentLocation != undefined) {
-            outputHTML += `</div><span>${dateStr}</span><div class="detailedTides">`;
-          } else if (dateStr != currentWorkingDate) {
-            outputHTML += `<span>${dateStr}</span><div class="detailedTides">`;
-          }
-          currentWorkingDate = dateStr;
-          let tideDirection = tide.EventType == "HighWater" ? "High" : "Low";
-          outputHTML += `${tideDirection}: <span>${dateObj.getHours().toString().padStart(2, "0")}:${dateObj.getMinutes().toString().padStart(2, "0")} (${tide.Height.toFixed(2)}m)</span><br>`;
-        });
-        document.querySelector("#extraDates").innerHTML = outputHTML;*/
         element.innerHTML = "";
         var div = document.createElement("div");
         div.className = "detailedTides";
         tides.forEach(function (tide) {
-            var dateObj = new Date(Date.parse(tide.DateTime));
+            var dateObj = new Date(Date.parse(tide.Date));
+            var timeObj;
+            if (tide.DateTime !== undefined)
+                timeObj = new Date(Date.parse(tide.DateTime));
             var dateStr = days[dateObj.getDay()] + " " + dateObj.getDate() + " " + months[dateObj.getMonth()]; // e.g. "Sunday 20 December"
             if (element.children.length == 0 || element.children[element.children.length - 2].textContent !== dateStr) {
                 var titleSpan = document.createElement("span");
@@ -108,10 +96,12 @@ var HTML;
             }
             var tideType = tide.EventType === "HighWater" ? "High" : "Low";
             var infoSpan = document.createElement("span");
-            infoSpan.textContent = dateObj.getHours().toString().padStart(2, "0") + ":" + dateObj.getMinutes().toString().padStart(2, "0") + " (" + tide.Height.toFixed(2) + "m)";
-            element.lastChild.appendChild(document.createTextNode(tideType + ": "));
-            element.lastChild.appendChild(infoSpan);
-            element.lastChild.appendChild(document.createElement("br"));
+            if (tide.Height !== undefined) { // basically if not a low tide in an estuary
+                infoSpan.textContent = timeObj.getHours().toString().padStart(2, "0") + ":" + timeObj.getMinutes().toString().padStart(2, "0") + " (" + tide.Height.toFixed(2) + "m)";
+                element.lastChild.appendChild(document.createTextNode(tideType + ": "));
+                element.lastChild.appendChild(infoSpan);
+                element.lastChild.appendChild(document.createElement("br"));
+            }
         });
     }
     HTML.updateExtraInfo = updateExtraInfo;
