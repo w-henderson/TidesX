@@ -46,7 +46,8 @@ namespace HTML {
   }): void {
     element.firstChild.textContent = ""; // change span text
     let icon = document.createElement("i");
-    icon.className = `fas fa-arrow-${info.tideDirection}`;
+    if (info.tideDirection != undefined) icon.className = `fas fa-arrow-${info.tideDirection}`;
+    else icon.className = "fa fa-minus";
     element.firstChild.appendChild(icon);
     element.firstChild.appendChild(document.createTextNode(" " + info.locationName));
 

@@ -45,9 +45,12 @@ function requestFavouriteLocationAsync(favourite, stationId) {
         var tideComingIn = futureTideTimes[0].EventType == "HighWater";
         var tide1Date = new Date(Date.parse(futureTideTimes[0].DateTime));
         var tide2Date = new Date(Date.parse(futureTideTimes[1].DateTime));
+        var tideDirection = tideComingIn ? "up" : "down";
+        if (!station.properties.ContinuousHeightsAvailable)
+            tideDirection = undefined;
         HTML.updateFavourite(favourite, {
             locationName: station.properties.Name.toLowerCase(),
-            tideDirection: tideComingIn ? "up" : "down",
+            tideDirection: tideDirection,
             next1: tide1Date.getHours().toString().padStart(2, "0") + ":" + tide1Date.getMinutes().toString().padStart(2, "0"),
             next2: tide2Date.getHours().toString().padStart(2, "0") + ":" + tide2Date.getMinutes().toString().padStart(2, "0"),
             tide1type: futureTideTimes[0].EventType === "HighWater" ? "High" : "Low",

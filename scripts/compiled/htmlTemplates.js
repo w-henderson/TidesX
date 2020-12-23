@@ -33,7 +33,10 @@ var HTML;
     function updateFavourite(element, info) {
         element.firstChild.textContent = ""; // change span text
         var icon = document.createElement("i");
-        icon.className = "fas fa-arrow-" + info.tideDirection;
+        if (info.tideDirection != undefined)
+            icon.className = "fas fa-arrow-" + info.tideDirection;
+        else
+            icon.className = "fa fa-minus";
         element.firstChild.appendChild(icon);
         element.firstChild.appendChild(document.createTextNode(" " + info.locationName));
         element.lastChild.firstChild.firstChild.textContent = info.next1; // change first time
