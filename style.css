@@ -42,6 +42,11 @@ body {
   overscroll-behavior: contain;
 }
 
+* {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
+}
+
 html { overscroll-behavior: contain; }
 
 .topBar {
@@ -59,7 +64,7 @@ html { overscroll-behavior: contain; }
   height: 60%;
   width: 100%;
   box-sizing: border-box;
-  padding: 5vw;
+  padding: 3vh;
   font-size: 6vh;
   text-align: center;
 }
@@ -71,12 +76,14 @@ html { overscroll-behavior: contain; }
   filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.5));
   opacity: 0.5;
   transition: 250ms;
+  cursor: pointer;
 }
 
 .tabButtons i {
   filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.5));
   opacity: 0.5;
   transition: 250ms;
+  cursor: pointer;
 }
 
 .selectedTab {
@@ -125,6 +132,9 @@ html { overscroll-behavior: contain; }
 .tabActive {
   display: block;
 }
+.tabActive#homeTab {
+  display: grid;
+}
 
 table {
   color: var(--standard-text-color);
@@ -132,6 +142,7 @@ table {
 
 button {
   transition: transform 100ms;
+  cursor: pointer;
 }
 
 button:active {
@@ -141,13 +152,14 @@ button:active {
 /* FAVOURITES PAGE CSS */
 
 .favourite {
-  margin-bottom: 3vh;
   text-transform: capitalize;
   background-color: var(--block-color);
   box-sizing: border-box;
   padding: 2vh;
   border-radius: 2vh;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  height: min-content;
+  cursor: pointer;
 }
 
 .favourite table {
@@ -175,6 +187,51 @@ button:active {
 
 .favourite tr.times img {
   height: 8vh;
+}
+
+/* FAVOURITES PAGE RESPONSIVE CSS */
+
+#homeTab {
+  grid-template-columns: 100%;
+  grid-template-rows: min-content;
+  grid-gap: 3vh;
+}
+
+#homeTab::after {
+  content: "";
+  height: 1vh;
+}
+
+@media (orientation: landscape) {
+  #homeTab {
+    grid-template-columns: 50%;
+  }
+  .favourite:nth-child(odd) {
+    grid-column-start: 1;
+    grid-column-end: 1;
+  }
+  .favourite:nth-child(even) {
+    grid-column-start: 2;
+    grid-column-end: 2;
+  }
+}
+
+@media (min-width: 150vh) and (orientation: landscape) {
+  #homeTab {
+    grid-template-columns: 33.3% 33.3%;
+  }
+  .favourite:nth-child(3n) {
+    grid-column-start: 3;
+    grid-column-end: 3;
+  }
+  .favourite:nth-child(3n+1) {
+    grid-column-start: 1;
+    grid-column-end: 1;
+  }
+  .favourite:nth-child(3n+2) {
+    grid-column-start: 2;
+    grid-column-end: 2;
+  }
 }
 
 /* LOCATION PAGE CSS */
@@ -297,8 +354,8 @@ button:active {
 .switch {
   position: relative;
   display: inline-block;
-  width: 18vw;
-  height: 10.2vw;
+  width: 9vh;
+  height: 5.1vh;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -318,16 +375,16 @@ button:active {
   background-color: #888;
   -webkit-transition: 250ms;
   transition: 250ms;
-  border-radius: 10.2vw;
+  border-radius: 5.1vh;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 7.8vw;
-  width: 7.8vw;
-  left: 1.2vw;
-  bottom: 1.2vw;
+  height: 3.9vh;
+  width: 3.9vh;
+  left: 0.6vh;
+  bottom: 0.6vh;
   background-color: white;
   -webkit-transition: 250ms;
   transition: 250ms;
@@ -343,9 +400,9 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(7.8vw);
-  -ms-transform: translateX(7.8vw);
-  transform: translateX(7.8vw);
+  -webkit-transform: translateX(3.9vh);
+  -ms-transform: translateX(3.9vh);
+  transform: translateX(3.9vh);
 }
 
 #settingsTab table {
