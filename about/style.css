@@ -26,7 +26,7 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     row-gap: 6vh;
-    background: linear-gradient(to bottom right, var(--accent-color), var(--accent-color-darker));
+    background: linear-gradient(to left, var(--accent-color), var(--accent-color-darker));
 }
 
 .heroContent {
@@ -74,6 +74,14 @@ body {
     color: var(--accent-color-darker);
 }
 
+.featuresDesktop { display: block; }
+.featuresMobile { display: none; }
+@media (max-width: 100vh) {
+    .featuresDesktop { display: none; }
+    .featuresMobile { display: block; }
+    .heroContent { margin: 2.5vh 0.5vh; }
+}
+
 .heroImage {
     display: flex;
     flex: 2;
@@ -86,6 +94,8 @@ body {
     height: 75vh;
     animation: imageIn 1.5s ease;
 }
+
+/* ANIMATION */
 
 @keyframes imageIn {
     0% {

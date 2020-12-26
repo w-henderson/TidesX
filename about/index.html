@@ -20,20 +20,30 @@
             <h1 class="shadow text" id="changingText"></h1>
             <div class="subtitle">Looking for the answer? Try TidesX.</div>
 
-            <div>
+            <div class="featuresDesktop">
                 7-day tide predictions &bull; Live height<br>
                 600+ locations &bull; Moon phase<br>
                 Completely free and open-source
             </div>
+            <div class="featuresMobile">
+                &bull; 7-day tide predictions<br>
+                &bull; Live height<br>
+                &bull; 600+ locations<br>
+                &bull; Moon phase<br>
+                &bull; Free and open-source
+            </div>
 
             <div class="buttons">
-                <button>Google Play</button>
-                <button>More Info</button>
+                <button onclick="window.open('https://play.google.com/store/apps/details?id=com.whenderson.tidesx');">Google Play</button>
+                <button onclick="document.querySelector('.mainInfo').scrollIntoView({behavior:'smooth'});">More Info</button>
             </div>
         </div>
         <div class="heroImage">
             <img class="shadow box" src="../images/mockups/phone.png">
         </div>
+    </div>
+    <div class="mainInfo">
+        hello
     </div>
 </body>
 
