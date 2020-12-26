@@ -78,23 +78,28 @@ function requestTideTimesAsync(location, day) {
     API.getTides(location.properties.Id).then(function (tides) {
         document.querySelector("#" + day + "Tides").innerHTML = "";
         for (var i = 0; i < tides.length; i++) {
-            var tideDate = new Date(Date.parse(tides[i].DateTime));
+            var tideTime = new Date(Date.parse(tides[i].DateTime));
+            var tideDate = new Date(Date.parse(tides[i].Date));
+            var currentDate = new Date();
             var currentTime = new Date();
-            if (day == "today" && tideDate.getDate() == currentTime.getDate()) {
+            currentDate.setHours(0, 0, 0, 0);
+            var tomorrowDate = new Date(currentDate);
+            tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+            if (day == "today" && tideDate.getTime() === currentDate.getTime()) {
                 HTMLRefs.refs.todayTides.appendChild(HTML.createTideTime({
-                    past: currentTime.getTime() - tideDate.getTime() > 0,
+                    past: currentTime.getTime() - tideTime.getTime() > 0,
                     direction: tides[i].EventType == "HighWater" ? "High" : "Low",
-                    time: tideDate.getHours().toString().padStart(2, "0") + ":" + tideDate.getMinutes().toString().padStart(2, "0"),
+                    time: tideTime.getHours().toString().padStart(2, "0") + ":" + tideTime.getMinutes().toString().padStart(2, "0"),
                     height: tides[i].Height.toFixed(2)
                 }));
                 HTMLRefs.refs.todayTides.appendChild(document.createElement("br"));
                 heightInterpolation(tides);
             }
-            else if (day == "tomorrow" && (tideDate.getDate() == currentTime.getDate() + 1 || (tideDate.getDate() == 1 && tideDate.getMonth() != currentTime.getMonth()))) {
+            else if (day == "tomorrow" && tideDate.getTime() === tomorrowDate.getTime()) {
                 HTMLRefs.refs.tomorrowTides.appendChild(HTML.createTideTime({
                     past: false,
                     direction: tides[i].EventType == "HighWater" ? "High" : "Low",
-                    time: tideDate.getHours().toString().padStart(2, "0") + ":" + tideDate.getMinutes().toString().padStart(2, "0"),
+                    time: tideTime.getHours().toString().padStart(2, "0") + ":" + tideTime.getMinutes().toString().padStart(2, "0"),
                     height: tides[i].Height.toFixed(2)
                 }));
                 HTMLRefs.refs.tomorrowTides.appendChild(document.createElement("br"));
