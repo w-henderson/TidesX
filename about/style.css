@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;700&display=swap");
+
+* {
+    --accent-color: #33b4ff;
+    --accent-color-darker: #007bc2;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: #00020f;
+    font-family: Poppins;
+    overflow: hidden auto;
+}
+
+.shadow.text { text-shadow: 0 0 20px rgba(0, 0, 0, 0.4); }
+.shadow.box { filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.4)); }
+
+.hero {
+    color: #ffffff;
+    min-height: 100%;
+    width: 100%;
+    padding: 5vh 5vw;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 6vh;
+    background: linear-gradient(to bottom right, var(--accent-color), var(--accent-color-darker));
+}
+
+.heroContent {
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+    place-items: center;
+    place-content: center;
+    text-align: center;
+    font-size: 3vh;
+    font-weight: 200;
+    min-width: min(50vh, 100%);
+}
+
+.heroContent h1 {
+    margin: 0 0 4vh;
+    line-height: 8vh;
+    font-size: 7vh;
+    color: #f2f4ff;
+}
+
+.heroContent .subtitle {
+    font-size: 4vh;
+    font-weight: 400;
+    margin: 0 0 2vh;
+}
+
+.heroContent .buttons { margin: 2.5vh 0 0; }
+.heroContent button {
+    outline: none;
+    border: 2px solid white;
+    background-color: transparent;
+    border-radius: 4vh;
+    color: white;
+    font-size: 2.5vh;
+    padding: 1vh 2vh;
+    font-family: Poppins;
+    font-weight: 400;
+    margin: 0 0.5vh;
+    cursor: pointer;
+    transition: 250ms;
+}
+.heroContent button:hover {
+    background-color: white;
+    color: var(--accent-color-darker);
+}
+
+.heroImage {
+    display: flex;
+    flex: 2;
+    place-items: center;
+    place-content: center;
+    min-width: min(50vh, 100%);
+}
+
+.heroImage img {
+    height: 75vh;
+    animation: imageIn 1.5s ease;
+}
+
+@keyframes imageIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    20% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: none;
+    }
+}
