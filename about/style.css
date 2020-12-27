@@ -1,0 +1,180 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;700&display=swap");
+
+* {
+    --accent-color: #33b4ff;
+    --accent-color-darker: #007bc2;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: #00020f;
+    font-family: Poppins;
+    overflow: hidden auto;
+}
+
+.shadow.text { text-shadow: 0 0 20px rgba(0, 0, 0, 0.4); }
+.shadow.box { filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.4)); }
+
+/* HERO SECTION */
+
+.hero {
+    color: #ffffff;
+    min-height: 100vh;
+    width: 100%;
+    padding: 5vh 5vw;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 6vh;
+    background: linear-gradient(to top left, var(--accent-color), var(--accent-color-darker));
+}
+
+.heroContent {
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+    place-items: center;
+    place-content: center;
+    text-align: center;
+    font-size: 3vh;
+    font-weight: 200;
+    min-width: min(50vh, 100%);
+}
+
+.heroContent h1 {
+    margin: 0 0 4vh;
+    line-height: 8vh;
+    font-size: 7vh;
+    color: #f2f4ff;
+}
+
+.heroContent .subtitle {
+    font-size: 4vh;
+    font-weight: 400;
+    margin: 0 0 2vh;
+}
+
+.heroContent .buttons { margin: 2.5vh 0 0; }
+.heroContent button {
+    outline: none;
+    border: 2px solid white;
+    background-color: transparent;
+    border-radius: 4vh;
+    color: white;
+    font-size: 2.5vh;
+    padding: 1vh 2vh;
+    font-family: Poppins;
+    font-weight: 400;
+    margin: 0 0.5vh;
+    cursor: pointer;
+    transition: 250ms;
+}
+.heroContent button:hover {
+    background-color: white;
+    color: var(--accent-color-darker);
+}
+
+.featuresDesktop { display: block; }
+.featuresMobile { display: none; }
+@media (max-width: 100vh) {
+    .featuresDesktop { display: none; }
+    .featuresMobile { display: block; }
+    .heroContent { margin: 2.5vh 0.5vh; }
+}
+
+.heroImage {
+    display: flex;
+    flex: 2;
+    place-items: center;
+    place-content: center;
+    min-width: min(50vh, 100%);
+}
+
+.heroImage img {
+    height: 75vh;
+    animation: imageIn 1.5s ease;
+}
+
+/* REGULAR SECTIONS */
+div.section {
+    background-color: #f2f4ff;
+    color: #00020f;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 25%;
+    font-size: 2.5vh;
+    padding: 5vh 0;
+}
+div.section:nth-child(2n+1) {
+    background-color: #e3e4ec;
+}
+div.section div.container {
+    margin: 0 20% 0 20%;
+    padding: 5vh 0;
+}
+div.section h1 {
+    font-size: 4vh;
+    margin-top: 0;
+    margin-bottom: 1vh;
+    color: var(--accent-color-darker);
+}
+
+ul {
+    list-style: none; /* Remove default bullets */
+}
+
+ul li::before {
+    content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+    color: var(--accent-color); /* Change the color */
+    font-weight: 800; /* If you want it to be bold */
+    transform: scale(1.5);
+    display: inline-block; /* Needed to add space between the bullet and the text */
+    width: 1em; /* Also needed for space (tweak if needed) */
+    margin-left: -1em; /* Also needed for space (tweak if needed) */
+}
+
+/* FOOTER */
+div.footer {
+    background-color: #f2f4ff;
+    color: #00020f;
+    box-sizing: border-box;
+    padding: 1.5vh;
+    font-size: 2vh;
+    width: 100%;
+}
+div.footer:nth-child(2n+1) {
+    background-color: #e3e4ec;
+}
+div.footer span {
+    position: absolute;
+    right: 1.5vh;
+}
+
+/* LINK STYLING */
+
+a:link, a:visited, a:active {
+    color: #00020f;
+    transition: 100ms;
+    font-weight: 200;
+    text-decoration: none;
+}
+a:hover { color: var(--accent-color); }
+
+/* ANIMATION */
+
+@keyframes imageIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    20% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: none;
+    }
+}

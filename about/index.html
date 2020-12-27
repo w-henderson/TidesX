@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>TidesX: About</title>
+
+    <meta name="description" content="A simple, beautiful app to check the tide times. Offering week-long tidal predictions for over 600 locations in the UK, TidesX is the place to go for accurate UK tide times.">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-175787828-1"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/icon.png">
+
+    <script src="titleTextAnimation.js"></script>
+</head>
+
+<body>
+    <div class="hero">
+        <div class="heroContent">
+            <h1 class="shadow text" id="changingText"></h1>
+            <div class="subtitle">Looking for the answer? Try TidesX.</div>
+
+            <div class="featuresDesktop">
+                7-day tide predictions &bull; Live height<br>
+                600+ locations &bull; Moon phase<br>
+                Completely free and open-source
+            </div>
+            <div class="featuresMobile">
+                &bull; 7-day tide predictions<br>
+                &bull; Live height<br>
+                &bull; 600+ locations<br>
+                &bull; Moon phase<br>
+                &bull; Free and open-source
+            </div>
+
+            <div class="buttons">
+                <button onclick="window.open('https://play.google.com/store/apps/details?id=com.whenderson.tidesx');">Google Play</button>
+                <button onclick="document.querySelector('.section').scrollIntoView({behavior:'smooth'});">More Info</button>
+            </div>
+        </div>
+        <div class="heroImage">
+            <img class="shadow box" src="images/mockups/phone.png" alt="Screenshot of TidesX">
+        </div>
+    </div>
+    <div class="section">
+        <div class="container">
+            <h1>Why choose TidesX?</h1>
+            While there are other tide information apps available, they look dated and feel clunky and slow. TidesX was created to provide a beautiful yet functional alternative to these old apps. Built with state-of-the-art and modern web technologies, TidesX is not only fast and reliable but also offers a download size a fraction of those of its rivals thanks to our use of next-generation technologies such as Trusted Web Activites.
+        </div>
+    </div>
+    <div class="section">
+        <div class="container">
+            <h1>Features</h1>
+            TidesX offers everything you might need to know about the tides, including:
+            <ul>
+                <li>7-day tide predictions so you can prepare for the week ahead</li>
+                <li>600+ UK locations so no matter where you are, you can check the tides</li>
+                <li>Live height and current tide direction</li>
+                <li>Moon phase</li>
+                <li>Geolocation so you can easily find your closest location</li>
+            </ul>
+        </div>
+    </div>
+    <div class="section">
+        <div class="container">
+            <h1>How does TidesX work?</h1>
+            Every time you look for accurate tidal information on TidesX, we send a request straight to the UK Hydrographic Office to obtain the most up-to-date tidal predictions for today and the week ahead. These are sent to your device in an average of just 100ms, more than twice as fast as other available tide times apps.
+        </div>
+    </div>
+    <div class="section">
+        <div class="container">
+            <h1>How much does TidesX cost?</h1>
+            TidesX is and will always be completely free. In addition, we have no invasive ads to detract from your experience, allowing for a cleaner and less cluttered interface. As an open-source and free project, our goal is to provide the best possible user experience for anyone interested in the UK tide times, and this is always our priority.
+        </div>
+    </div>
+    <div class="section">
+        <div class="container">
+            <h1>Where can I get it?</h1>
+            If you're using an Android device, you can get it straight from the <a href="https://play.google.com/store/apps/details?id=com.whenderson.tidesx">Google Play store</a>. TidesX is not on the iOS App Store due to technical limitations, but you can install it as a web app by visiting <a href="https://w-henderson.github.io/TidesX">the application page</a> and adding it to your home screen. This also works on Android, but the Play Store version is recommended.
+        </div>
+    </div>
+    <div class="footer">
+        TidesX: About &bull; <a href="https://github.com/w-henderson/TidesX">See the source code on GitHub</a>
+        <span>&copy; William Henderson 2020</span>
+    </div>
+</body>
+
+</html>

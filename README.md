@@ -14,5 +14,5 @@ TidesX is now available on the [Google Play Store](https://play.google.com/store
 # Screenshots
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
-|<img width="400" src="images/screenshots/homepage.png">  |  <img width="400" src="images/screenshots/darkmode.png">  |  <img width="400" src="images/screenshots/detail.png">|
-|<img width="400" src="images/screenshots/detail.png">  |  <img width="400" src="images/screenshots/moreinfo.png">  |  <img width="400" src="images/screenshots/settings.png">|
+|<img width="400" src="about/images/screenshots/homepage.png">  |  <img width="400" src="about/images/screenshots/darkmode.png">  |  <img width="400" src="about/images/screenshots/detail.png">|
+|<img width="400" src="about/images/screenshots/detail.png">  |  <img width="400" src="about/images/screenshots/moreinfo.png">  |  <img width="400" src="about/images/screenshots/settings.png">|
