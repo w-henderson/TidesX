@@ -78,9 +78,13 @@ body {
 
 .featuresDesktop { display: block; }
 .featuresMobile { display: none; }
+.footerDesktop { display: block; }
+.footerMobile { display: none; }
 @media (max-width: 100vh) {
     .featuresDesktop { display: none; }
     .featuresMobile { display: block; }
+    .footerDesktop { display: none; }
+    .footerMobile { display: block; }
     .heroContent { margin: 2.5vh 0.5vh; }
 }
 
@@ -144,7 +148,10 @@ div.footer {
     font-size: 2vh;
     width: 100%;
 }
-div.footer:nth-child(2n+1) {
+div.footerDesktop:nth-child(2n+1) {
+    background-color: #e3e4ec;
+}
+div.footerMobile:nth-child(2n) {
     background-color: #e3e4ec;
 }
 div.footer span {
