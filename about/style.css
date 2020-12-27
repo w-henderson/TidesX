@@ -16,9 +16,11 @@ body {
 .shadow.text { text-shadow: 0 0 20px rgba(0, 0, 0, 0.4); }
 .shadow.box { filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.4)); }
 
+/* HERO SECTION */
+
 .hero {
     color: #ffffff;
-    min-height: 100%;
+    min-height: 100vh;
     width: 100%;
     padding: 5vh 5vw;
     box-sizing: border-box;
@@ -26,7 +28,7 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     row-gap: 6vh;
-    background: linear-gradient(to left, var(--accent-color), var(--accent-color-darker));
+    background: linear-gradient(to top left, var(--accent-color), var(--accent-color-darker));
 }
 
 .heroContent {
@@ -94,6 +96,71 @@ body {
     height: 75vh;
     animation: imageIn 1.5s ease;
 }
+
+/* REGULAR SECTIONS */
+div.section {
+    background-color: #f2f4ff;
+    color: #00020f;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 25%;
+    font-size: 2.5vh;
+    padding: 5vh 0;
+}
+div.section:nth-child(2n+1) {
+    background-color: #e3e4ec;
+}
+div.section div.container {
+    margin: 0 20% 0 20%;
+    padding: 5vh 0;
+}
+div.section h1 {
+    font-size: 4vh;
+    margin-top: 0;
+    margin-bottom: 1vh;
+    color: var(--accent-color-darker);
+}
+
+ul {
+    list-style: none; /* Remove default bullets */
+}
+
+ul li::before {
+    content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+    color: var(--accent-color); /* Change the color */
+    font-weight: 800; /* If you want it to be bold */
+    transform: scale(1.5);
+    display: inline-block; /* Needed to add space between the bullet and the text */
+    width: 1em; /* Also needed for space (tweak if needed) */
+    margin-left: -1em; /* Also needed for space (tweak if needed) */
+}
+
+/* FOOTER */
+div.footer {
+    background-color: #f2f4ff;
+    color: #00020f;
+    box-sizing: border-box;
+    padding: 1.5vh;
+    font-size: 2vh;
+    width: 100%;
+}
+div.footer:nth-child(2n+1) {
+    background-color: #e3e4ec;
+}
+div.footer span {
+    position: absolute;
+    right: 1.5vh;
+}
+
+/* LINK STYLING */
+
+a:link, a:visited, a:active {
+    color: #00020f;
+    transition: 100ms;
+    font-weight: 200;
+    text-decoration: none;
+}
+a:hover { color: var(--accent-color); }
 
 /* ANIMATION */
 
