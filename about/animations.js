@@ -40,3 +40,10 @@ async function updateTaglines() {
   }
   await updateTaglines();
 }
+
+var darkMode = false;
+function toggleDarkMode() {
+  darkMode = document.querySelector("#darkModeCheckbox").checked;
+  document.body.className = darkMode ? "darkMode" : "lightMode";
+  document.querySelector("img").src = darkMode ? "images/mockups/phone_dark.png" : "images/mockups/phone.png";
+}

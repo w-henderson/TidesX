@@ -11,11 +11,12 @@
 
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="images/icon.png">
+    <link rel="preload" href="images/mockups/phone_dark.png" as="image">
 
-    <script src="titleTextAnimation.js"></script>
+    <script src="animations.js"></script>
 </head>
 
-<body>
+<body class="lightMode">
     <div class="hero">
         <div class="heroContent">
             <h1 class="shadow text" id="changingText"></h1>
@@ -87,6 +88,13 @@
     <div class="footer footerMobile">
         TidesX: About
         <span>&copy; William Henderson 2020</span>
+    </div>
+
+    <div class="darkModeSwitch">
+        <label class="switch">
+            <input type="checkbox" id="darkModeCheckbox" onchange="toggleDarkMode();">
+            <span class="slider round"></span>
+          </label>
     </div>
 </body>
 

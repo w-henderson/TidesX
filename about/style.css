@@ -1,14 +1,32 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;700&display=swap");
 
-* {
+body.lightMode {
     --accent-color: #33b4ff;
     --accent-color-darker: #007bc2;
+    --header-color: #007bc2;
+    --dark-color: #00020f;
+    --almost-almost-lightest: #e3e4ec;
+    --almost-lightest: #f2f4ff;
+    --lightest: #ffffff;
+    --section-color-1: #f2f4ff;
+    --section-color-2: #e3e4ec;
+}
+
+body.darkMode {
+    --accent-color: #1c1f35;
+    --accent-color-darker: #00020f;
+    --header-color: #33b4ff;
+    --dark-color: #f2f4ff;   
+    --almost-lightest: #33b4ff;
+    --lightest: #f2f4ff;
+    --section-color-1: #12131b;
+    --section-color-2: #1c1f35;
 }
 
 body {
     margin: 0;
     padding: 0;
-    color: #00020f;
+    color: var(--dark-color);
     font-family: Poppins;
     overflow: hidden auto;
 }
@@ -19,7 +37,7 @@ body {
 /* HERO SECTION */
 
 .hero {
-    color: #ffffff;
+    color: var(--lightest);
     min-height: 100vh;
     width: 100%;
     padding: 5vh 5vw;
@@ -47,7 +65,7 @@ body {
     margin: 0 0 4vh;
     line-height: 8vh;
     font-size: 7vh;
-    color: #f2f4ff;
+    color: var(--almost-lightest);
 }
 
 .heroContent .subtitle {
@@ -59,10 +77,10 @@ body {
 .heroContent .buttons { margin: 2.5vh 0 0; }
 .heroContent button {
     outline: none;
-    border: 2px solid white;
+    border: 2px solid var(--lightest);
     background-color: transparent;
     border-radius: 4vh;
-    color: white;
+    color: var(--lightest);
     font-size: 2.5vh;
     padding: 1vh 2vh;
     font-family: Poppins;
@@ -72,7 +90,7 @@ body {
     transition: 250ms;
 }
 .heroContent button:hover {
-    background-color: white;
+    background-color: var(--lightest);
     color: var(--accent-color-darker);
 }
 
@@ -86,6 +104,7 @@ body {
     .footerDesktop { display: none; }
     .footerMobile { display: block; }
     .heroContent { margin: 2.5vh 0.5vh; }
+    .hero { padding: 8vh 5vw; }
 }
 
 .heroImage {
@@ -103,8 +122,8 @@ body {
 
 /* REGULAR SECTIONS */
 div.section {
-    background-color: #f2f4ff;
-    color: #00020f;
+    background-color: var(--section-color-1);
+    color: var(--dark-color);
     box-sizing: border-box;
     width: 100%;
     min-height: 25%;
@@ -112,7 +131,7 @@ div.section {
     padding: 5vh 0;
 }
 div.section:nth-child(2n+1) {
-    background-color: #e3e4ec;
+    background-color: var(--section-color-2);
 }
 div.section div.container {
     margin: 0 20% 0 20%;
@@ -122,7 +141,7 @@ div.section h1 {
     font-size: 4vh;
     margin-top: 0;
     margin-bottom: 1vh;
-    color: var(--accent-color-darker);
+    color: var(--header-color);
 }
 
 ul {
@@ -131,7 +150,7 @@ ul {
 
 ul li::before {
     content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-    color: var(--accent-color); /* Change the color */
+    color: var(--header-color); /* Change the color */
     font-weight: 800; /* If you want it to be bold */
     transform: scale(1.5);
     display: inline-block; /* Needed to add space between the bullet and the text */
@@ -141,18 +160,18 @@ ul li::before {
 
 /* FOOTER */
 div.footer {
-    background-color: #f2f4ff;
-    color: #00020f;
+    background-color: var(--section-color-1);
+    color: var(--dark-color);
     box-sizing: border-box;
     padding: 1.5vh;
     font-size: 2vh;
     width: 100%;
 }
 div.footerDesktop:nth-child(2n+1) {
-    background-color: #e3e4ec;
+    background-color: var(--section-color-2);
 }
 div.footerMobile:nth-child(2n) {
-    background-color: #e3e4ec;
+    background-color: var(--section-color-2);
 }
 div.footer span {
     position: absolute;
@@ -162,12 +181,12 @@ div.footer span {
 /* LINK STYLING */
 
 a:link, a:visited, a:active {
-    color: #00020f;
+    color: var(--dark-color);
     transition: 100ms;
     font-weight: 200;
     text-decoration: none;
 }
-a:hover { color: var(--accent-color); }
+a:hover { color: #33b4ff; }
 
 /* ANIMATION */
 
@@ -184,4 +203,73 @@ a:hover { color: var(--accent-color); }
         opacity: 1;
         transform: none;
     }
+}
+
+/* SLIDER */
+
+.darkModeSwitch {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 9vh;
+    height: 5.1vh;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #1c1f35;
+    -webkit-transition: 250ms;
+    transition: 250ms;
+    border-radius: 5.1vh;
+}
+
+.slider:before {
+    position: absolute;
+    content: "\1f31e";
+    font-size: 2.5vh;
+    text-indent: 0.25vh;
+    line-height: 4vh;
+    height: 3.9vh;
+    width: 3.9vh;
+    left: 0.6vh;
+    bottom: 0.6vh;
+    background-color: var(--lightest);
+    -webkit-transition: 250ms;
+    transition: 250ms;
+    border-radius: 50%;
+}
+
+input:checked + .slider:before {
+    content: "\1f319";
+}
+
+input:checked + .slider {
+    background-color: var(--almost-lightest);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--almost-lightest);
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(3.9vh);
+    -ms-transform: translateX(3.9vh);
+    transform: translateX(3.9vh);
 }
