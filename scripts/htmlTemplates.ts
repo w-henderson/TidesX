@@ -110,7 +110,7 @@ namespace HTML {
     tides.forEach((tide: TidalEvent) => {
       let dateObj = new Date(Date.parse(tide.Date));
       let timeObj;
-      if (tide.DateTime !== undefined) timeObj = new Date(Date.parse(tide.DateTime));
+      if (tide.DateTime !== undefined) timeObj = new Date(Date.parse(tide.DateTime + "Z"));
       let dateStr = `${days[dateObj.getDay()]} ${dateObj.getDate()} ${months[dateObj.getMonth()]}`; // e.g. "Sunday 20 December"
 
       if (element.children.length == 0 || element.children[element.children.length - 2].textContent !== dateStr) {

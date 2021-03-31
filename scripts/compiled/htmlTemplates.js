@@ -88,7 +88,7 @@ var HTML;
             var dateObj = new Date(Date.parse(tide.Date));
             var timeObj;
             if (tide.DateTime !== undefined)
-                timeObj = new Date(Date.parse(tide.DateTime));
+                timeObj = new Date(Date.parse(tide.DateTime + "Z"));
             var dateStr = days[dateObj.getDay()] + " " + dateObj.getDate() + " " + months[dateObj.getMonth()]; // e.g. "Sunday 20 December"
             if (element.children.length == 0 || element.children[element.children.length - 2].textContent !== dateStr) {
                 var titleSpan = document.createElement("span");

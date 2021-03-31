@@ -44,14 +44,14 @@ function requestFavouriteLocationAsync(favourite: HTMLElement, stationId: string
     let now = new Date().getTime();
 
     tideTimes.forEach((tide: TidalEvent) => {
-      if (Date.parse(tide.DateTime) > now) {
+      if (Date.parse(tide.DateTime + "Z") > now) {
         futureTideTimes.push(tide);
       }
     });
 
     let tideComingIn = futureTideTimes[0].EventType == "HighWater";
-    let tide1Date = new Date(Date.parse(futureTideTimes[0].DateTime));
-    let tide2Date = new Date(Date.parse(futureTideTimes[1].DateTime));
+    let tide1Date = new Date(Date.parse(futureTideTimes[0].DateTime + "Z"));
+    let tide2Date = new Date(Date.parse(futureTideTimes[1].DateTime + "Z"));
 
     let tideDirection = tideComingIn ? "up" : "down";
     if (!station.properties.ContinuousHeightsAvailable) tideDirection = undefined;
@@ -94,7 +94,7 @@ function requestTideTimesAsync(location: Station, day: string) {
     document.querySelector(`#${day}Tides`).innerHTML = "";
 
     for (let i = 0; i < tides.length; i++) {
-      let tideTime = new Date(Date.parse(tides[i].DateTime));
+      let tideTime = new Date(Date.parse(tides[i].DateTime + "Z"));
       let tideDate = new Date(Date.parse(tides[i].Date));
       let currentDate = new Date();
       let currentTime = new Date();
@@ -136,10 +136,10 @@ function heightInterpolation(tides: TidalEvent[]): void {
     if (i > 0) previousTide = tides[i - 1];
     nextTide = tides[i];
     futureTideJustInCase = tides[i + 1];
-    if (new Date(Date.parse(nextTide.DateTime)).getTime() > timeNow.getTime()) break;
+    if (new Date(Date.parse(nextTide.DateTime + "Z")).getTime() > timeNow.getTime()) break;
   }
 
-  let nextTideTime = new Date(Date.parse(nextTide.DateTime)).getTime();
+  let nextTideTime = new Date(Date.parse(nextTide.DateTime + "Z")).getTime();
   let nextTideHeight = nextTide.Height;
   let previousTideTime;
   let previousTideHeight;
@@ -147,7 +147,7 @@ function heightInterpolation(tides: TidalEvent[]): void {
     previousTideTime = nextTideTime - (1000 * 60 * 60 * 6);
     previousTideHeight = futureTideJustInCase.Height;
   } else {
-    previousTideTime = new Date(Date.parse(previousTide.DateTime)).getTime();
+    previousTideTime = new Date(Date.parse(previousTide.DateTime + "Z")).getTime();
     previousTideHeight = previousTide.Height;
   }
 
