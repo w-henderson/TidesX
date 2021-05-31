@@ -76,8 +76,11 @@ function initLocationTab(locationId) {
 }
 function requestTideTimesAsync(location, day) {
     API.getTides(location.properties.Id).then(function (tides) {
+        var _a, _b;
         document.querySelector("#" + day + "Tides").innerHTML = "";
         for (var i = 0; i < tides.length; i++) {
+            if (tides[i].Height === undefined)
+                continue;
             var tideTime = new Date(Date.parse(tides[i].DateTime + "Z"));
             var tideDate = new Date(Date.parse(tides[i].Date));
             var currentDate = new Date();
@@ -90,7 +93,7 @@ function requestTideTimesAsync(location, day) {
                     past: currentTime.getTime() - tideTime.getTime() > 0,
                     direction: tides[i].EventType == "HighWater" ? "High" : "Low",
                     time: tideTime.getHours().toString().padStart(2, "0") + ":" + tideTime.getMinutes().toString().padStart(2, "0"),
-                    height: tides[i].Height.toFixed(2)
+                    height: (_a = tides[i].Height) === null || _a === void 0 ? void 0 : _a.toFixed(2)
                 }));
                 HTMLRefs.refs.todayTides.appendChild(document.createElement("br"));
                 heightInterpolation(tides);
@@ -100,7 +103,7 @@ function requestTideTimesAsync(location, day) {
                     past: false,
                     direction: tides[i].EventType == "HighWater" ? "High" : "Low",
                     time: tideTime.getHours().toString().padStart(2, "0") + ":" + tideTime.getMinutes().toString().padStart(2, "0"),
-                    height: tides[i].Height.toFixed(2)
+                    height: (_b = tides[i].Height) === null || _b === void 0 ? void 0 : _b.toFixed(2)
                 }));
                 HTMLRefs.refs.tomorrowTides.appendChild(document.createElement("br"));
             }

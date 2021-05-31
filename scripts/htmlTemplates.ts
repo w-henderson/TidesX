@@ -61,7 +61,7 @@ namespace HTML {
     past: boolean,
     direction: string,
     time: string,
-    height: string
+    height: string | undefined
   }): HTMLElement {
     let a = document.createElement("a");
     let directionText = document.createTextNode(info.direction + ": ");

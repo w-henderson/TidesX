@@ -94,6 +94,8 @@ function requestTideTimesAsync(location: Station, day: string) {
     document.querySelector(`#${day}Tides`).innerHTML = "";
 
     for (let i = 0; i < tides.length; i++) {
+      if (tides[i].Height === undefined) continue;
+
       let tideTime = new Date(Date.parse(tides[i].DateTime + "Z"));
       let tideDate = new Date(Date.parse(tides[i].Date));
       let currentDate = new Date();
@@ -107,7 +109,7 @@ function requestTideTimesAsync(location: Station, day: string) {
             past: currentTime.getTime() - tideTime.getTime() > 0,
             direction: tides[i].EventType == "HighWater" ? "High" : "Low",
             time: `${tideTime.getHours().toString().padStart(2, "0")}:${tideTime.getMinutes().toString().padStart(2, "0")}`,
-            height: tides[i].Height.toFixed(2)
+            height: tides[i].Height?.toFixed(2)
           })
         );
         HTMLRefs.refs.todayTides.appendChild(document.createElement("br"));
@@ -118,7 +120,7 @@ function requestTideTimesAsync(location: Station, day: string) {
             past: false,
             direction: tides[i].EventType == "HighWater" ? "High" : "Low",
             time: `${tideTime.getHours().toString().padStart(2, "0")}:${tideTime.getMinutes().toString().padStart(2, "0")}`,
-            height: tides[i].Height.toFixed(2)
+            height: tides[i].Height?.toFixed(2)
           })
         );
         HTMLRefs.refs.tomorrowTides.appendChild(document.createElement("br"));
