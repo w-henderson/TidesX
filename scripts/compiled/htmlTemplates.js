@@ -86,6 +86,10 @@ var HTML;
         div.className = "detailedTides";
         tides.forEach(function (tide) {
             var dateObj = new Date(Date.parse(tide.Date));
+            var nowDateObj = new Date();
+            nowDateObj.setHours(0, 0, 0, 0);
+            if (dateObj.getTime() < nowDateObj.getTime())
+                return;
             var timeObj;
             if (tide.DateTime !== undefined)
                 timeObj = new Date(Date.parse(tide.DateTime + "Z"));

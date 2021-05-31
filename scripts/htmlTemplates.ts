@@ -109,6 +109,11 @@ namespace HTML {
 
     tides.forEach((tide: TidalEvent) => {
       let dateObj = new Date(Date.parse(tide.Date));
+      let nowDateObj = new Date();
+      nowDateObj.setHours(0, 0, 0, 0);
+
+      if (dateObj.getTime() < nowDateObj.getTime()) return;
+
       let timeObj;
       if (tide.DateTime !== undefined) timeObj = new Date(Date.parse(tide.DateTime + "Z"));
       let dateStr = `${days[dateObj.getDay()]} ${dateObj.getDate()} ${months[dateObj.getMonth()]}`; // e.g. "Sunday 20 December"
