@@ -94,6 +94,7 @@ function requestTideTimesAsync(location: Station, day: string) {
 
     for (let i = 0; i < tides.length; i++) {
       if (tides[i].Height === undefined) continue;
+      if (tides[i].DateTime === undefined) continue;
 
       let tideTime = new Date(Date.parse(tides[i].DateTime + "Z"));
       let tideDate = new Date(Date.parse(tides[i].Date));

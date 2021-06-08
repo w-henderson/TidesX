@@ -80,6 +80,8 @@ function requestTideTimesAsync(location, day) {
         for (var i = 0; i < tides.length; i++) {
             if (tides[i].Height === undefined)
                 continue;
+            if (tides[i].DateTime === undefined)
+                continue;
             var tideTime = new Date(Date.parse(tides[i].DateTime + "Z"));
             var tideDate = new Date(Date.parse(tides[i].Date));
             var currentDate = new Date();

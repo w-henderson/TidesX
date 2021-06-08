@@ -129,7 +129,7 @@ namespace HTML {
       let tideType = tide.EventType === "HighWater" ? "High" : "Low";
       let infoSpan = document.createElement("span");
 
-      if (tide.Height !== undefined) { // basically if not a low tide in an estuary
+      if (tide.Height !== undefined && timeObj !== undefined) { // basically if not a low tide in an estuary
         infoSpan.textContent = `${timeObj.getHours().toString().padStart(2, "0")}:${timeObj.getMinutes().toString().padStart(2, "0")} (${tide.Height.toFixed(2)}m)`;
 
         element.lastChild.appendChild(document.createTextNode(tideType + ": "));
