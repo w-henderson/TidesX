@@ -34,7 +34,7 @@ var HTML;
         element.firstChild.textContent = ""; // change span text
         var icon = document.createElement("i");
         if (info.tideDirection != undefined)
-            icon.className = "fas fa-arrow-" + info.tideDirection;
+            icon.className = "fas fa-arrow-".concat(info.tideDirection);
         else
             icon.className = "fa fa-minus";
         element.firstChild.appendChild(icon);
@@ -49,7 +49,7 @@ var HTML;
         var a = document.createElement("a");
         var directionText = document.createTextNode(info.direction + ": ");
         var timeSpan = document.createElement("span");
-        timeSpan.textContent = info.time + " (" + info.height + "m)";
+        timeSpan.textContent = "".concat(info.time, " (").concat(info.height, "m)");
         a.style.opacity = info.past ? "25%" : "100%";
         a.appendChild(directionText);
         a.appendChild(timeSpan);
@@ -62,7 +62,7 @@ var HTML;
         var br = document.createElement("br");
         var image = document.createElement("img");
         var text = document.createTextNode(" " + moonPhases[moonPhase]);
-        image.src = "images/moon/" + moonPhase + ".svg";
+        image.src = "images/moon/".concat(moonPhase, ".svg");
         titleSpan.textContent = "Moon Phase:";
         element.appendChild(titleSpan);
         element.appendChild(br);
@@ -93,7 +93,7 @@ var HTML;
             var timeObj;
             if (tide.DateTime !== undefined)
                 timeObj = new Date(Date.parse(tide.DateTime + "Z"));
-            var dateStr = days[dateObj.getDay()] + " " + dateObj.getDate() + " " + months[dateObj.getMonth()]; // e.g. "Sunday 20 December"
+            var dateStr = "".concat(days[dateObj.getDay()], " ").concat(dateObj.getDate(), " ").concat(months[dateObj.getMonth()]); // e.g. "Sunday 20 December"
             if (element.children.length == 0 || element.children[element.children.length - 2].textContent !== dateStr) {
                 var titleSpan = document.createElement("span");
                 titleSpan.textContent = dateStr;
@@ -104,7 +104,7 @@ var HTML;
             var tideType = tide.EventType === "HighWater" ? "High" : "Low";
             var infoSpan = document.createElement("span");
             if (tide.Height !== undefined && timeObj !== undefined) { // basically if not a low tide in an estuary
-                infoSpan.textContent = timeObj.getHours().toString().padStart(2, "0") + ":" + timeObj.getMinutes().toString().padStart(2, "0") + " (" + tide.Height.toFixed(2) + "m)";
+                infoSpan.textContent = "".concat(timeObj.getHours().toString().padStart(2, "0"), ":").concat(timeObj.getMinutes().toString().padStart(2, "0"), " (").concat(tide.Height.toFixed(2), "m)");
                 element.lastChild.appendChild(document.createTextNode(tideType + ": "));
                 element.lastChild.appendChild(infoSpan);
                 element.lastChild.appendChild(document.createElement("br"));

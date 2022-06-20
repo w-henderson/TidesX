@@ -50,8 +50,8 @@ function requestFavouriteLocationAsync(favourite, stationId) {
         HTML.updateFavourite(favourite, {
             locationName: station.properties.Name.toLowerCase(),
             tideDirection: tideDirection,
-            next1: tide1Date.getHours().toString().padStart(2, "0") + ":" + tide1Date.getMinutes().toString().padStart(2, "0"),
-            next2: tide2Date.getHours().toString().padStart(2, "0") + ":" + tide2Date.getMinutes().toString().padStart(2, "0"),
+            next1: "".concat(tide1Date.getHours().toString().padStart(2, "0"), ":").concat(tide1Date.getMinutes().toString().padStart(2, "0")),
+            next2: "".concat(tide2Date.getHours().toString().padStart(2, "0"), ":").concat(tide2Date.getMinutes().toString().padStart(2, "0")),
             tide1type: futureTideTimes[0].EventType === "HighWater" ? "High" : "Low",
             tide2type: futureTideTimes[1].EventType === "HighWater" ? "High" : "Low"
         });
@@ -76,7 +76,7 @@ function initLocationTab(locationId) {
 function requestTideTimesAsync(location, day) {
     API.getTides(location.properties.Id).then(function (tides) {
         var _a, _b;
-        document.querySelector("#" + day + "Tides").innerHTML = "";
+        document.querySelector("#".concat(day, "Tides")).innerHTML = "";
         for (var i = 0; i < tides.length; i++) {
             if (tides[i].Height === undefined)
                 continue;
@@ -93,7 +93,7 @@ function requestTideTimesAsync(location, day) {
                 HTMLRefs.refs.todayTides.appendChild(HTML.createTideTime({
                     past: currentTime.getTime() - tideTime.getTime() > 0,
                     direction: tides[i].EventType == "HighWater" ? "High" : "Low",
-                    time: tideTime.getHours().toString().padStart(2, "0") + ":" + tideTime.getMinutes().toString().padStart(2, "0"),
+                    time: "".concat(tideTime.getHours().toString().padStart(2, "0"), ":").concat(tideTime.getMinutes().toString().padStart(2, "0")),
                     height: (_a = tides[i].Height) === null || _a === void 0 ? void 0 : _a.toFixed(2)
                 }));
                 HTMLRefs.refs.todayTides.appendChild(document.createElement("br"));
@@ -103,7 +103,7 @@ function requestTideTimesAsync(location, day) {
                 HTMLRefs.refs.tomorrowTides.appendChild(HTML.createTideTime({
                     past: false,
                     direction: tides[i].EventType == "HighWater" ? "High" : "Low",
-                    time: tideTime.getHours().toString().padStart(2, "0") + ":" + tideTime.getMinutes().toString().padStart(2, "0"),
+                    time: "".concat(tideTime.getHours().toString().padStart(2, "0"), ":").concat(tideTime.getMinutes().toString().padStart(2, "0")),
                     height: (_b = tides[i].Height) === null || _b === void 0 ? void 0 : _b.toFixed(2)
                 }));
                 HTMLRefs.refs.tomorrowTides.appendChild(document.createElement("br"));

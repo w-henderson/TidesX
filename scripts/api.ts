@@ -1,5 +1,5 @@
 namespace API {
-  const REQUEST_URL = "https://0agi9hnrm8.execute-api.eu-west-2.amazonaws.com/default/getTideTimes?id={}";
+  const REQUEST_URL = "https://tidesx-api.whenderson.workers.dev/?id={}";
 
   // Returns a promise which resolves to an array TidalEvents for a specific station
   export function getTides(stationId: string): Promise<TidalEvent[]> {
