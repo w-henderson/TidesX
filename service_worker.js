@@ -1,3 +1,5 @@
+const VERSION = "v1-20220620";
+
 self.addEventListener('install', function (e) {
   e.waitUntil(
     caches.open('tidesx').then(function (cache) {
