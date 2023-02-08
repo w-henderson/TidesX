@@ -26,5 +26,6 @@ interface Station {
 interface UserPrefs {
     sortSetting: boolean,
     cacheSetting: boolean,
-    darkModeSetting: boolean
+    darkModeSetting: boolean,
+    imperialMeasurements: boolean
 }

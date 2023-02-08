@@ -75,7 +75,6 @@ function initLocationTab(locationId) {
 }
 function requestTideTimesAsync(location, day) {
     API.getTides(location.properties.Id).then(function (tides) {
-        var _a, _b;
         document.querySelector("#".concat(day, "Tides")).innerHTML = "";
         for (var i = 0; i < tides.length; i++) {
             if (tides[i].Height === undefined)
@@ -94,7 +93,7 @@ function requestTideTimesAsync(location, day) {
                     past: currentTime.getTime() - tideTime.getTime() > 0,
                     direction: tides[i].EventType == "HighWater" ? "High" : "Low",
                     time: "".concat(tideTime.getHours().toString().padStart(2, "0"), ":").concat(tideTime.getMinutes().toString().padStart(2, "0")),
-                    height: (_a = tides[i].Height) === null || _a === void 0 ? void 0 : _a.toFixed(2)
+                    height: tides[i].Height
                 }));
                 HTMLRefs.refs.todayTides.appendChild(document.createElement("br"));
                 heightInterpolation(tides);
@@ -104,7 +103,7 @@ function requestTideTimesAsync(location, day) {
                     past: false,
                     direction: tides[i].EventType == "HighWater" ? "High" : "Low",
                     time: "".concat(tideTime.getHours().toString().padStart(2, "0"), ":").concat(tideTime.getMinutes().toString().padStart(2, "0")),
-                    height: (_b = tides[i].Height) === null || _b === void 0 ? void 0 : _b.toFixed(2)
+                    height: tides[i].Height
                 }));
                 HTMLRefs.refs.tomorrowTides.appendChild(document.createElement("br"));
             }
@@ -141,7 +140,9 @@ function heightInterpolation(tides) {
     var sineInterpolate = (Math.sin((linearInterpolate - 0.5) * 180 * Math.PI / 180) + 1) / 2; // 0 - 1 sine between heights (also rad conversion)
     var estimatedHeight = previousTideHeight + sineInterpolate * (nextTideHeight - previousTideHeight); // estimation of current height using sine interpolation
     if (estimatedHeight.toString() !== "NaN") {
-        HTMLRefs.refs.currentHeight.textContent = "(now " + (Math.round(estimatedHeight * 100) / 100).toString() + "m)";
+        var height = UserPreferences.settings.imperialMeasurements ? estimatedHeight * 3.28084 : estimatedHeight;
+        var heightString = height.toFixed(2) + (UserPreferences.settings.imperialMeasurements ? "ft" : "m");
+        HTMLRefs.refs.currentHeight.textContent = "(now ".concat(heightString, ")");
         HTMLRefs.refs.continuousMessage.textContent = "";
         HTMLRefs.refs.continuousMessage.style.margin = "0 0 0";
     }

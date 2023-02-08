@@ -433,13 +433,8 @@ input:checked + .slider:before {
 }
 
 .linksAndThanks {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100vw;
-  height: 21vh;
   box-sizing: border-box;
-  padding: 3vh;
+  padding-top: 3vh;
   font-size: 2.5vh;
 }
 

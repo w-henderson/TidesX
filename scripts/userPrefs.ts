@@ -2,7 +2,8 @@ namespace UserPreferences {
   export var settings: UserPrefs = {
     "sortSetting": false,
     "cacheSetting": true,
-    "darkModeSetting": false
+    "darkModeSetting": false,
+    "imperialMeasurements": false
   };
 
   // Function to toggle a given setting and then update accordingly
@@ -21,6 +22,8 @@ namespace UserPreferences {
         document.body.className = "lightMode";
         document.querySelector("meta[name='theme-color']").setAttribute("content", "#33b4ff");
       }
+    } else if (setting == "imperial") {
+      settings.imperialMeasurements = !settings.imperialMeasurements;
     }
     window.localStorage.setItem("tidesXSettings", JSON.stringify(settings));
     if (setting == "sort") {
@@ -35,12 +38,13 @@ namespace UserPreferences {
       (<HTMLInputElement>document.getElementById("sortSetting")).checked = settings.sortSetting;
       (<HTMLInputElement>document.getElementById("cacheSetting")).checked = settings.cacheSetting;
       (<HTMLInputElement>document.getElementById("darkModeSetting")).checked = settings.darkModeSetting;
+      (<HTMLInputElement>document.getElementById("imperialSetting")).checked = settings.imperialMeasurements;
       if (settings.darkModeSetting) {
         document.body.className = "darkMode";
         document.querySelector("meta[name='theme-color']").setAttribute("content", "#006fb1");
       }
     } else {
-      window.localStorage.setItem("tidesXSettings", '{"sortSetting":false,"cacheSetting":true,"darkModeSetting":false}');
+      window.localStorage.setItem("tidesXSettings", '{"sortSetting":false,"cacheSetting":true,"darkModeSetting":false,"imperialMeasurements":false}');
     }
   }
 

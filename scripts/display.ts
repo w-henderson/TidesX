@@ -109,7 +109,7 @@ function requestTideTimesAsync(location: Station, day: string) {
             past: currentTime.getTime() - tideTime.getTime() > 0,
             direction: tides[i].EventType == "HighWater" ? "High" : "Low",
             time: `${tideTime.getHours().toString().padStart(2, "0")}:${tideTime.getMinutes().toString().padStart(2, "0")}`,
-            height: tides[i].Height?.toFixed(2)
+            height: tides[i].Height
           })
         );
         HTMLRefs.refs.todayTides.appendChild(document.createElement("br"));
@@ -120,7 +120,7 @@ function requestTideTimesAsync(location: Station, day: string) {
             past: false,
             direction: tides[i].EventType == "HighWater" ? "High" : "Low",
             time: `${tideTime.getHours().toString().padStart(2, "0")}:${tideTime.getMinutes().toString().padStart(2, "0")}`,
-            height: tides[i].Height?.toFixed(2)
+            height: tides[i].Height
           })
         );
         HTMLRefs.refs.tomorrowTides.appendChild(document.createElement("br"));
@@ -159,7 +159,10 @@ function heightInterpolation(tides: TidalEvent[]): void {
   var estimatedHeight = previousTideHeight + sineInterpolate * (nextTideHeight - previousTideHeight); // estimation of current height using sine interpolation
 
   if (estimatedHeight.toString() !== "NaN") {
-    HTMLRefs.refs.currentHeight.textContent = "(now " + (Math.round(estimatedHeight * 100) / 100).toString() + "m)";
+    let height = UserPreferences.settings.imperialMeasurements ? estimatedHeight * 3.28084 : estimatedHeight;
+    let heightString = height.toFixed(2) + (UserPreferences.settings.imperialMeasurements ? "ft" : "m");
+
+    HTMLRefs.refs.currentHeight.textContent = `(now ${heightString})`;
     HTMLRefs.refs.continuousMessage.textContent = "";
     HTMLRefs.refs.continuousMessage.style.margin = "0 0 0";
   } else {

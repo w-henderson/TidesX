@@ -61,13 +61,16 @@ namespace HTML {
     past: boolean,
     direction: string,
     time: string,
-    height: string | undefined
+    height: number | undefined
   }): HTMLElement {
     let a = document.createElement("a");
     let directionText = document.createTextNode(info.direction + ": ");
     let timeSpan = document.createElement("span");
 
-    timeSpan.textContent = `${info.time} (${info.height}m)`;
+    let height = UserPreferences.settings.imperialMeasurements ? info.height * 3.28084 : info.height;
+    let heightString = height.toFixed(2) + (UserPreferences.settings.imperialMeasurements ? "ft" : "m");
+
+    timeSpan.textContent = `${info.time} (${heightString})`;
     a.style.opacity = info.past ? "25%" : "100%";
 
     a.appendChild(directionText);
@@ -130,7 +133,10 @@ namespace HTML {
       let infoSpan = document.createElement("span");
 
       if (tide.Height !== undefined && timeObj !== undefined) { // basically if not a low tide in an estuary
-        infoSpan.textContent = `${timeObj.getHours().toString().padStart(2, "0")}:${timeObj.getMinutes().toString().padStart(2, "0")} (${tide.Height.toFixed(2)}m)`;
+        let height = UserPreferences.settings.imperialMeasurements ? tide.Height * 3.28084 : tide.Height;
+        let heightString = height.toFixed(2) + (UserPreferences.settings.imperialMeasurements ? "ft" : "m");
+
+        infoSpan.textContent = `${timeObj.getHours().toString().padStart(2, "0")}:${timeObj.getMinutes().toString().padStart(2, "0")} (${heightString})`;
 
         element.lastChild.appendChild(document.createTextNode(tideType + ": "));
         element.lastChild.appendChild(infoSpan);

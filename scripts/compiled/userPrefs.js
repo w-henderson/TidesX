@@ -3,7 +3,8 @@ var UserPreferences;
     UserPreferences.settings = {
         "sortSetting": false,
         "cacheSetting": true,
-        "darkModeSetting": false
+        "darkModeSetting": false,
+        "imperialMeasurements": false
     };
     // Function to toggle a given setting and then update accordingly
     function changeSetting(setting) {
@@ -25,6 +26,9 @@ var UserPreferences;
                 document.querySelector("meta[name='theme-color']").setAttribute("content", "#33b4ff");
             }
         }
+        else if (setting == "imperial") {
+            UserPreferences.settings.imperialMeasurements = !UserPreferences.settings.imperialMeasurements;
+        }
         window.localStorage.setItem("tidesXSettings", JSON.stringify(UserPreferences.settings));
         if (setting == "sort") {
             initFavouritesPage();
@@ -38,13 +42,14 @@ var UserPreferences;
             document.getElementById("sortSetting").checked = UserPreferences.settings.sortSetting;
             document.getElementById("cacheSetting").checked = UserPreferences.settings.cacheSetting;
             document.getElementById("darkModeSetting").checked = UserPreferences.settings.darkModeSetting;
+            document.getElementById("imperialSetting").checked = UserPreferences.settings.imperialMeasurements;
             if (UserPreferences.settings.darkModeSetting) {
                 document.body.className = "darkMode";
                 document.querySelector("meta[name='theme-color']").setAttribute("content", "#006fb1");
             }
         }
         else {
-            window.localStorage.setItem("tidesXSettings", '{"sortSetting":false,"cacheSetting":true,"darkModeSetting":false}');
+            window.localStorage.setItem("tidesXSettings", '{"sortSetting":false,"cacheSetting":true,"darkModeSetting":false,"imperialMeasurements":false}');
         }
     }
     UserPreferences.initPrefs = initPrefs;
