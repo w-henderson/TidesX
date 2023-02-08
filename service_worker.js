@@ -1,4 +1,4 @@
-const VERSION = "v1-20230208";
+const VERSION = "v1-20230208-patch";
 
 self.addEventListener('install', function (e) {
   e.waitUntil(
