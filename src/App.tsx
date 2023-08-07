@@ -8,7 +8,7 @@ import Home from './components/Home';
 import Settings from './components/Settings';
 import Location from './components/Location';
 
-import { PreferenceContext, Prefs } from './PreferenceContext';
+import { PreferenceContext, Prefs, tryMigrateFromOldFormat } from './PreferenceContext';
 
 type State = {
   selectedTab: string;
@@ -22,13 +22,13 @@ class App extends React.Component<{}, State> {
 
     const item = localStorage.getItem("tidesXPrefs");
 
-    const prefs = item ? JSON.parse(item) : {
+    const prefs = item ? JSON.parse(item) : tryMigrateFromOldFormat({
       favourites: [],
       darkMode: false,
       imperial: false,
       sort: false,
       cache: true
-    };
+    });
 
     this.state = {
       selectedTab: "home",
