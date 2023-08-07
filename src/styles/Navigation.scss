@@ -1,0 +1,52 @@
+div.Navigation {
+  height: 25vh;
+  width: 100%;
+  background: linear-gradient(to bottom,
+      var(--lighter-background-color),
+      var(--darker-background-color));
+  color: var(--inverse-text-color);
+
+  div.tabButtons {
+    height: 60%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 3vh;
+    font-size: 6vh;
+    text-align: center;
+
+    img {
+      height: 11vh;
+      padding: 0 10vw;
+      vertical-align: middle;
+    }
+
+    img,
+    i {
+      filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.5));
+      opacity: 0.5;
+      transition: 250ms;
+      cursor: pointer;
+
+      &.selectedTab {
+        filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 1));
+        transform: scale(1.1);
+        opacity: 1;
+      }
+    }
+  }
+
+  div.titleBar {
+    height: 40%;
+    width: 100%;
+    text-align: center;
+    font-size: 6vh;
+    font-weight: 700;
+    text-transform: capitalize;
+    filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 1));
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-sizing: border-box;
+    padding: 0.5vh 1vh 1vh;
+  }
+}

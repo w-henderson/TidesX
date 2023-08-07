@@ -1,0 +1,74 @@
+div.Location {
+  span {
+    font-weight: 500;
+    font-size: 3.5vh;
+  }
+
+  .continuousMessage {
+    margin: 0px 0px 2vh;
+  }
+
+  .detailedTides {
+    font-weight: 200;
+    font-size: 3.5vh;
+    margin-bottom: 3vh;
+  }
+
+  .detailedTides span {
+    font-weight: 400 !important;
+    font-size: 3.5vh !important;
+  }
+
+  .detailedTides img {
+    height: 10vh;
+  }
+
+  .fa-arrow-up {
+    color: var(--arrow-up);
+  }
+
+  .fa-arrow-down {
+    color: var(--arrow-down);
+  }
+
+  .fa-minus {
+    color: var(--arrow-null);
+  }
+
+  button {
+    width: 48%;
+    height: 8vh;
+    font-size: 2.75vh;
+    font-family: Poppins;
+    font-weight: 500;
+    line-height: 3vh;
+    border: 0;
+    border-radius: 10px;
+    filter: drop-shadow(0px 0px 5px rgba(0%, 10%, 20%, 50%));
+    outline: none;
+    color: var(--standard-text-color);
+    background-color: var(--button-color);
+  }
+
+  .currentHeight img {
+    height: 3vh;
+  }
+
+  .moonInfo {
+    font-size: 4vh;
+    font-weight: 200;
+    margin-bottom: 2vh;
+  }
+
+  .moonInfo img {
+    height: 7vh;
+    vertical-align: middle;
+    margin-right: 2.5vw;
+    filter: drop-shadow(0px 0px 5px rgba(0%, 10%, 20%, 50%));
+  }
+
+  .sunInfo {
+    font-weight: 200;
+    font-size: 3.5vh;
+  }
+}
